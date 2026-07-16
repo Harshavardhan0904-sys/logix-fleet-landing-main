@@ -1,7 +1,7 @@
-# 🚛 FreightFlow — Enterprise Freight Invoice Automation Platform
+# 🚛 Aetra — Enterprise Freight Invoice Automation Platform
 
 ## Overview
-FreightFlow is India's #1 freight invoice automation and reconciliation SaaS platform for Indian logistics SMEs. Built for the ₹2.3 Lakh Crore Indian logistics market, it solves the #1 pain point: **lack of visibility + operational inefficiency** in freight finance.
+Aetra is India's #1 freight invoice automation and reconciliation SaaS platform for Indian logistics SMEs. Built for the ₹2.3 Lakh Crore Indian logistics market, it solves the #1 pain point: **lack of visibility + operational inefficiency** in freight finance.
 
 ## 🚀 Live Application
 
@@ -10,7 +10,7 @@ FreightFlow is India's #1 freight invoice automation and reconciliation SaaS pla
 |-----|-------------|
 | `index.html` | Landing page (default) |
 | `index.html#landing` | Marketing landing page |
-| `index.html#login` | Login page (demo: demo@freightflow.in / demo1234) |
+| `index.html#login` | Login page (demo: demo@aetra.in / demo1234) |
 | `index.html#register` | New company registration |
 | `index.html#dashboard` | Main dashboard (requires login) |
 | `index.html#invoices` | Invoice management |
@@ -281,4 +281,6 @@ js/
     reports.js      — Analytics
     settings.js     — Settings
 README.md           — This file
-```
+```=======
+# logix-fleet-landing
+>>>>>>> fd3aa8b439635863c8bf35eb04eb39548eb60c41
