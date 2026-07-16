@@ -1,0 +1,71 @@
+{
+  "monitoring": {
+    "enabled": true,
+    "logLevel": "info"
+  },
+  "cache": {
+    "CRITICAL_THRESHOLD": 50,
+    "WARNING_THRESHOLD": 75,
+    "HEALTHY_THRESHOLD": 85
+  },
+  "performance": {
+    "P50_THRESHOLD": 100,
+    "P95_THRESHOLD": 300,
+    "P99_THRESHOLD": 1000,
+    "AVG_THRESHOLD": 150
+  },
+  "alerts": {
+    "CACHE_DEGRADATION": {
+      "threshold": 50,
+      "metric": "cacheHitRate",
+      "severity": "CRITICAL",
+      "action": "CHECK_EVICTION_POLICY"
+    },
+    "SLOW_RESPONSE": {
+      "threshold": 2000,
+      "metric": "responseTimeP95",
+      "severity": "WARNING",
+      "action": "SCALE_API"
+    },
+    "HIGH_ERROR_RATE": {
+      "threshold": 5,
+      "metric": "errorRate",
+      "severity": "CRITICAL",
+      "action": "INVESTIGATE_LOGS"
+    },
+    "RATE_LIMIT_SPIKE": {
+      "threshold": 500,
+      "metric": "rateLimitEvents",
+      "severity": "WARNING",
+      "action": "CHECK_DDOS"
+    }
+  },
+  "alertChannels": {
+    "email": {
+      "enabled": false,
+      "provider": "gmail"
+    },
+    "slack": {
+      "enabled": false,
+      "webhook": ""
+    },
+    "sentry": {
+      "enabled": false,
+      "dsn": ""
+    },
+    "pagerduty": {
+      "enabled": false,
+      "integrationKey": ""
+    }
+  },
+  "retention": {
+    "metrics_days": 30,
+    "alerts_days": 30,
+    "logs_days": 7
+  },
+  "reporting": {
+    "enabled": true,
+    "frequency": "daily",
+    "time": "09:00"
+  }
+}

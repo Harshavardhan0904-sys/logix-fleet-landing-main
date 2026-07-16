@@ -1,0 +1,13 @@
+Date,Time,Wave,Emails Sent,Emails Opened,Click Rate %,Form Submissions,WhatsApp Responses,Total Leads,Conversion Rate %,Revenue Estimate,Notes
+May 6,10:00 AM,Wave 1 - Email,20,0,0%,0,0,0,0%,₹0,Starting launch
+May 6,11:00 AM,Wave 1 - WhatsApp,0,0,0%,0,0,0,0%,₹0,Follow-up messages
+May 6,EOD,Wave 1 - Summary,20,6,30%,3,8,3,0%,₹0,Monitor responses
+May 7,03:00 PM,Wave 2 - Email,30,0,0%,0,0,3,0%,₹0,New prospects
+May 7,04:00 PM,Wave 2 - LinkedIn,10,0,0%,0,0,3,0%,₹0,DMs to key contacts
+May 7,EOD,Wave 2 - Summary,30,9,30%,4,5,7,0%,₹0,Cumulative tracking
+May 8,10:00 AM,Wave 3 - Email Reminder,15,0,0%,0,0,7,0%,₹0,Non-responders only
+May 8,11:00 AM,Wave 3 - WhatsApp,10,0,0%,0,0,7,0%,₹0,Final push to engaged
+May 8,EOD,Wave 3 - Summary,15,4,27%,2,6,9,0%,₹0,Cumulative
+May 11,09:00 AM,Wave 4 - Final Email,50,0,0%,0,0,9,0%,₹0,All remaining prospects
+May 11,05:00 PM,Wave 4 - Conversion WhatsApp,15,0,0%,0,0,9,0%,₹0,Lock-in conversions
+May 11,EOD,Wave 4 - FINAL SUMMARY,50,15,30%,12,18,12,67%,₹60000,Launch complete

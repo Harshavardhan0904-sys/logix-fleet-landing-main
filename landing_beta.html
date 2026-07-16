@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aetra OCR Beta - Free Invoice Processing</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .container { background: white; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); max-width: 600px; width: 100%; padding: 50px; }
+        .logo { color: #667eea; font-size: 28px; font-weight: bold; margin-bottom: 10px; }
+        h1 { color: #1a202c; font-size: 32px; margin-bottom: 15px; }
+        .subtitle { color: #718096; font-size: 16px; margin-bottom: 30px; line-height: 1.6; }
+        .benefits { background: #f7fafc; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
+        .benefits h3 { color: #2d3748; font-size: 14px; margin-bottom: 10px; font-weight: 600; }
+        .benefits ul { list-style: none; }
+        .benefits li { color: #4a5568; font-size: 14px; padding: 8px 0; padding-left: 25px; position: relative; }
+        .benefits li:before { content: "✓"; position: absolute; left: 0; color: #48bb78; font-weight: bold; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; color: #2d3748; font-weight: 500; margin-bottom: 8px; font-size: 14px; }
+        .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 6px; font-size: 14px; }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        @media (max-width: 500px) { .form-row { grid-template-columns: 1fr; } }
+        .submit-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; transition: transform 0.2s; }
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3); }
+        .disclaimer { color: #718096; font-size: 12px; margin-top: 15px; text-align: center; }
+        .success { display: none; text-align: center; }
+        .success h2 { color: #48bb78; margin-bottom: 15px; }
+        .success p { color: #718096; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">⚡ Aetra</div>
+        <h1>Invoice OCR Beta Program</h1>
+        <p class="subtitle">Transform invoices into actionable data in seconds. Join 50+ logistics companies testing our free OCR engine.</p>
+        
+        <div class="benefits">
+            <h3>What You Get (FREE Beta):</h3>
+            <ul>
+                <li>100 FREE OCR uploads/month</li>
+                <li>Extract invoice data in 3-5 seconds</li>
+                <li>Auto-fill 9+ fields (vendor, amount, GST, vehicle, etc.)</li>
+                <li>Support via email + WhatsApp</li>
+                <li>Early access to rate card management</li>
+            </ul>
+        </div>
+
+        <form id="signupForm" action="https://forms.gle/QcSStZYjsegXyaZS8" method="GET" target="_blank">
+            <div class="form-group">
+                <label>Full Name *</label>
+                <input type="text" name="name" required>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone (WhatsApp) *</label>
+                    <input type="tel" name="phone" placeholder="+91 XXXXX XXXXX" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Company Name *</label>
+                    <input type="text" name="company" required>
+                </div>
+                <div class="form-group">
+                    <label>Your Role *</label>
+                    <input type="text" name="role" placeholder="e.g., Ops Manager" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Invoices per week? *</label>
+                <select name="volume" required>
+                    <option value="">Select volume...</option>
+                    <option value="10-50">10-50 invoices</option>
+                    <option value="50-200">50-200 invoices</option>
+                    <option value="200+">200+ invoices</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Primary Vendor (Invoice Source) *</label>
+                <select name="vendor" required>
+                    <option value="">Select vendor...</option>
+                    <option value="TCI">TCI Express</option>
+                    <option value="Allcargo">Allcargo</option>
+                    <option value="Delhivery">Delhivery</option>
+                    <option value="Express">Express Logistics</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <button type="submit" class="submit-btn">🚀 Get Free Beta Access</button>
+            <p class="disclaimer">We'll email login credentials within 1 hour. No credit card required.</p>
+        </form>
+
+        <div class="success" id="successMsg">
+            <h2>✅ Welcome to Aetra Beta!</h2>
+            <p>Check your email for login credentials</p>
+            <p style="font-size: 12px; color: #a0aec0;">You'll also receive a WhatsApp message with support details</p>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('signupForm');
+        const successMsg = document.getElementById('successMsg');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = {
+                name: form.name.value,
+                email: form.email.value,
+                phone: form.phone.value,
+                company: form.company.value,
+                role: form.role.value,
+                volume: form.volume.value,
+                vendor: form.vendor.value,
+                signup_date: new Date().toISOString(),
+                source: 'landing_page'
+            };
+
+            // Save to localStorage (for demo) and display success
+            let signups = JSON.parse(localStorage.getItem('beta_signups') || '[]');
+            signups.push(formData);
+            localStorage.setItem('beta_signups', JSON.stringify(signups));
+
+            // Try to send via WhatsApp (Gupshup) and Email
+            try {
+                // Form responses go directly to Google Form
+            const formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLScHtMN7J1VzEYhOg7SIF7K8hjUjBjtJVlW3znKjiVXN8LPn1Q/formResponse';
+            const params = new FormData();
+            params.append('entry.123456789', formData.name);  // Replace with actual entry IDs
+            
+            await fetch(formUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+            } catch (e) {
+                console.log('Offline mode - saved locally');
+            }
+
+            // Show success
+            form.style.display = 'none';
+            successMsg.style.display = 'block';
+        });
+    </script>
+</body>
+</html>

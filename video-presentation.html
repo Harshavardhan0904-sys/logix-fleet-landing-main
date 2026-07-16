@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aetra - 2 Minute Professional Video with AI Voiceover</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Inter:wght@300;400;600&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .presentation {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 60px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .slide-content {
+            position: relative;
+            z-index: 1;
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes countUp {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Slide 1: Title */
+        .slide-1 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .slide-1 .slide-content {
+            animation-delay: 0.2s;
+        }
+
+        .slide-1 h1 {
+            font-size: 72px;
+            margin-bottom: 20px;
+            font-weight: 800;
+            letter-spacing: -2px;
+            animation: slideInLeft 0.8s ease-out 0.3s both;
+        }
+
+        .slide-1 p {
+            font-size: 32px;
+            opacity: 0.95;
+            margin-bottom: 30px;
+            font-weight: 600;
+            animation: slideInRight 0.8s ease-out 0.5s both;
+        }
+
+        .slide-1 .truck-emoji {
+            font-size: 120px;
+            margin: 20px 0;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .slide-1 .subtitle {
+            font-size: 18px;
+            opacity: 0.8;
+            font-weight: 300;
+            animation: fadeIn 1s ease-out 0.7s both;
+        }
+
+        /* Slide 2: Problem */
+        .slide-2 {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .slide-2 h2 {
+            font-size: 56px;
+            margin-bottom: 50px;
+            font-weight: 800;
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        .problem-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .problem-item {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 40px;
+            border-radius: 20px;
+            font-size: 24px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            animation: scaleIn 0.6s ease-out;
+        }
+
+        .problem-item:nth-child(1) { animation-delay: 0.2s; }
+        .problem-item:nth-child(2) { animation-delay: 0.4s; }
+        .problem-item:nth-child(3) { animation-delay: 0.6s; }
+        .problem-item:nth-child(4) { animation-delay: 0.8s; }
+
+        .problem-item:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-10px);
+        }
+
+        .problem-item .number {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        /* Slide 3: Manual Process */
+        .slide-3 {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: #333;
+        }
+
+        .slide-3 h2 {
+            font-size: 56px;
+            margin-bottom: 50px;
+            color: #333;
+            font-weight: 800;
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        .process-steps {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+            max-width: 1100px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 20px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .step-icon {
+            font-size: 70px;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.4);
+            width: 120px;
+            height: 120px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            animation: scaleIn 0.6s ease-out;
+            transition: all 0.3s ease;
+        }
+
+        .step:hover .step-icon {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.6);
+        }
+
+        .step:nth-child(1) .step-icon { animation-delay: 0.2s; }
+        .step:nth-child(3) .step-icon { animation-delay: 0.4s; }
+        .step:nth-child(5) .step-icon { animation-delay: 0.6s; }
+        .step:nth-child(7) .step-icon { animation-delay: 0.8s; }
+
+        .arrow {
+            font-size: 48px;
+            color: #333;
+            margin: 0 10px;
+            font-weight: 800;
+            opacity: 0.6;
+        }
+
+        /* Slide 4: Time Cost */
+        .slide-4 {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+
+        .slide-4 h2 {
+            font-size: 56px;
+            margin-bottom: 50px;
+            font-weight: 800;
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        .time-cost {
+            font-size: 96px;
+            font-weight: 800;
+            margin: 30px 0;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+            animation: scaleIn 0.8s ease-out 0.3s both;
+        }
+
+        .time-detail {
+            font-size: 32px;
+            opacity: 0.95;
+            margin: 20px 0;
+            font-weight: 600;
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        .time-detail:nth-of-type(2) { animation-delay: 0.2s; }
+        .time-detail:nth-of-type(3) { animation-delay: 0.4s; }
+        .time-detail:nth-of-type(4) { animation-delay: 0.6s; }
+
+        /* Slide 5: Solution Intro */
+        .slide-5 {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: white;
+        }
+
+        .slide-5 h2 {
+            font-size: 56px;
+            margin-bottom: 40px;
+            font-weight: 800;
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        .solution-text {
+            font-size: 48px;
+            margin: 20px 0;
+            opacity: 0.98;
+            font-weight: 700;
+            animation: fadeIn 0.8s ease-out 0.3s both;
+        }
+
+        .solution-text.secondary {
+            font-size: 36px;
+            margin: 30px 0;
+            animation: fadeIn 0.8s ease-out 0.6s both;
+        }
+
+        .subtitle-text {
+            font-size: 22px;
+            opacity: 0.85;
+            margin-top: 30px;
+            font-weight: 400;
+            animation: fadeIn 0.8s ease-out 0.9s both;
+        }
+
+        /* Slide 6: AI Solution */
+        .slide-6 {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: #333;
+        }
+
+        .slide-6 h2 {
+            font-size: 56px;
+            margin-bottom: 50px;
+            color: #333;
+            font-weight: 800;
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        .ai-steps {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+            max-width: 1100px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .ai-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 20px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .ai-icon {
+            font-size: 70px;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.4);
+            width: 120px;
+            height: 120px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            animation: scaleIn 0.6s ease-out;
+            transition: all 0.3s ease;
+        }
+
+        .ai-step:hover .ai-icon {
+            transform: scale(1.1) rotate(5deg);
+            background: rgba(255, 255, 255, 0.6);
+        }
+
+        .ai-step:nth-child(1) .ai-icon { animation-delay: 0.2s; }
+        .ai-step:nth-child(3) .ai-icon { animation-delay: 0.4s; }
+        .ai-step:nth-child(5) .ai-icon { animation-delay: 0.6s; }
+        .ai-step:nth-child(7) .ai-icon { animation-delay: 0.8s; }
+
+        /* Slide 7: Results */
+        .slide-7 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .slide-7 h2 {
+            font-size: 56px;
+            margin-bottom: 50px;
+            font-weight: 800;
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            width: 100%;
+            max-width: 900px;
+            margin-top: 20px;
+        }
+
+        .result-item {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 40px;
+            border-radius: 20px;
+            border-left: 5px solid #fff;
+            backdrop-filter: blur(10px);
+            animation: slideInUp 0.6s ease-out;
+            transition: all 0.3s ease;
+        }
+
+        .result-item:nth-child(1) { animation-delay: 0.2s; }
+        .result-item:nth-child(2) { animation-delay: 0.4s; }
+        .result-item:nth-child(3) { animation-delay: 0.6s; }
+        .result-item:nth-child(4) { animation-delay: 0.8s; }
+
+        .result-item:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-10px);
+        }
+
+        .result-number {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            animation: countUp 1s ease-out;
+        }
+
+        .result-label {
+            font-size: 22px;
+            opacity: 0.9;
+            font-weight: 600;
+        }
+
+        /* Slide 8: Case Study */
+        .slide-8 {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+
+        .slide-8 h2 {
+            font-size: 56px;
+            margin-bottom: 40px;
+            font-weight: 800;
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        .case-study-box {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 50px;
+            border-radius: 25px;
+            max-width: 900px;
+            font-size: 26px;
+            line-height: 1.9;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            animation: slideInUp 0.8s ease-out 0.2s both;
+        }
+
+        .company-name {
+            font-size: 40px;
+            font-weight: 800;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .case-study-box > div {
+            margin: 15px 0;
+            animation: slideInLeft 0.6s ease-out;
+        }
+
+        .case-study-box > div:nth-child(2) { animation-delay: 0.3s; }
+        .case-study-box > div:nth-child(3) { animation-delay: 0.4s; }
+        .case-study-box > div:nth-child(4) { animation-delay: 0.5s; }
+        .case-study-box > div:nth-child(5) { animation-delay: 0.6s; }
+
+        /* Slide 9: CTA */
+        .slide-9 {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: white;
+        }
+
+        .slide-9 h2 {
+            font-size: 60px;
+            margin-bottom: 30px;
+            font-weight: 800;
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        .cta-text {
+            font-size: 40px;
+            margin: 20px 0;
+            opacity: 0.98;
+            font-weight: 700;
+            animation: scaleIn 0.8s ease-out 0.3s both;
+        }
+
+        .cta-subtext {
+            font-size: 24px;
+            opacity: 0.9;
+            margin-top: 20px;
+            font-weight: 400;
+            animation: fadeIn 0.8s ease-out 0.5s both;
+        }
+
+        .cta-button {
+            background: white;
+            color: #43e97b;
+            border: none;
+            padding: 20px 50px;
+            font-size: 28px;
+            border-radius: 60px;
+            margin-top: 40px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            animation: scaleIn 0.8s ease-out 0.7s both;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .cta-button:active {
+            transform: translateY(-1px);
+        }
+
+        .website-url {
+            font-size: 20px;
+            opacity: 0.85;
+            margin-top: 40px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            animation: fadeIn 0.8s ease-out 0.9s both;
+        }
+
+        /* Controls */
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 60px;
+            backdrop-filter: blur(10px);
+        }
+
+        button {
+            background: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            color: #333;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* Slide counter */
+        .slide-counter {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 700;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Timing info */
+        .timing-info {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%);
+            transition: width 0.3s ease;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Voiceover Toggle */
+        .voiceover-toggle {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 700;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .voiceover-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .voiceover-toggle.active {
+            background: #43e97b;
+            color: #333;
+        }
+    </style>
+            color: #333;
+        }
+
+        .slide-6 h2 {
+            font-size: 48px;
+            margin-bottom: 40px;
+            color: #333;
+        }
+
+        .ai-steps {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+            max-width: 1000px;
+            margin-top: 40px;
+        }
+
+        .ai-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .ai-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.3);
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Slide 7: Results */
+        .slide-7 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .slide-7 h2 {
+            font-size: 48px;
+            margin-bottom: 40px;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            width: 100%;
+            max-width: 900px;
+            margin-top: 20px;
+        }
+
+        .result-item {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 5px solid #fff;
+        }
+
+        .result-number {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .result-label {
+            font-size: 20px;
+            opacity: 0.9;
+        }
+
+        /* Slide 8: Case Study */
+        .slide-8 {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+
+        .slide-8 h2 {
+            font-size: 48px;
+            margin-bottom: 40px;
+        }
+
+        .case-study-box {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 800px;
+            font-size: 24px;
+            line-height: 1.8;
+        }
+
+        .company-name {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Slide 9: CTA */
+        .slide-9 {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: white;
+        }
+
+        .slide-9 h2 {
+            font-size: 56px;
+            margin-bottom: 40px;
+            font-weight: 700;
+        }
+
+        .cta-text {
+            font-size: 32px;
+            margin: 20px 0;
+            opacity: 0.95;
+        }
+
+        .cta-button {
+            background: rgba(255, 255, 255, 0.3);
+            border: 3px solid white;
+            color: white;
+            padding: 20px 40px;
+            font-size: 24px;
+            border-radius: 50px;
+            margin-top: 30px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background: white;
+            color: #43e97b;
+        }
+
+        /* Controls */
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 100;
+        }
+
+        button {
+            background: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Slide counter */
+        .slide-counter {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Timing info */
+        .timing-info {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: bold;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.8);
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation">
+        <!-- Slide 1: Title (0-10 sec) -->
+        <div class="slide slide-1 active">
+            <div class="slide-content">
+                <div class="truck-emoji">🚛</div>
+                <h1>Aetra</h1>
+                <p>Save 60% Time on Freight Invoicing</p>
+                <p class="subtitle">AI-Powered Invoice Automation for Indian Logistics</p>
+            </div>
+        </div>
+
+        <!-- Slide 2: Problem (10-25 sec) -->
+        <div class="slide slide-2">
+            <div class="slide-content">
+                <h2>The Problem Today</h2>
+                <div class="problem-box">
+                    <div class="problem-item">
+                        <div class="number">30-40</div>
+                        <div>minutes per invoice</div>
+                    </div>
+                    <div class="problem-item">
+                        <div class="number">8-12%</div>
+                        <div>error rate</div>
+                    </div>
+                    <div class="problem-item">
+                        <div class="number">3-5</div>
+                        <div>days on GST reconciliation</div>
+                    </div>
+                    <div class="problem-item">
+                        <div class="number">₹3-5L</div>
+                        <div>annual cost</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Manual Process (25-35 sec) -->
+        <div class="slide slide-3">
+            <div class="slide-content">
+                <h2>Today's Manual Process</h2>
+                <div class="process-steps">
+                    <div class="step">
+                        <div class="step-icon">📄</div>
+                        <div>Open Invoice</div>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="step">
+                        <div class="step-icon">⌨️</div>
+                        <div>Type Data</div>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="step">
+                        <div class="step-icon">🧮</div>
+                        <div>Calculate GST</div>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="step">
+                        <div class="step-icon">⏱️</div>
+                        <div>40 Minutes</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Time Cost (35-45 sec) -->
+        <div class="slide slide-4">
+            <div class="slide-content">
+                <h2>The Cost of Manual Processing</h2>
+                <div class="time-cost">1,000 invoices = 667 hours</div>
+                <div class="time-detail">= 16-17 weeks of full-time work</div>
+                <div class="time-detail">= ₹8-10 Lakh in annual salary cost</div>
+                <div class="time-detail" style="margin-top: 30px; font-size: 20px; opacity: 0.8;">And errors still happen...</div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Solution Intro (45-55 sec) -->
+        <div class="slide slide-5">
+            <div class="slide-content">
+                <h2>Meet Aetra</h2>
+                <div class="solution-text">Upload. AI Extracts. Done.</div>
+                <div class="solution-text secondary">From 40 minutes → 3 seconds per invoice</div>
+                <p class="subtitle-text">Powered by Indian GST compliance + Advanced AI</p>
+            </div>
+        </div>
+
+        <!-- Slide 6: AI Solution (55-70 sec) -->
+        <div class="slide slide-6">
+            <div class="slide-content">
+                <h2>How Aetra Works</h2>
+                <div class="ai-steps">
+                    <div class="ai-step">
+                        <div class="ai-icon">📸</div>
+                        <div>Upload Invoice</div>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="ai-step">
+                        <div class="ai-icon">🤖</div>
+                        <div>AI Extracts</div>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="ai-step">
+                        <div class="ai-icon">✅</div>
+                        <div>Auto GST</div>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="ai-step">
+                        <div class="ai-icon">📊</div>
+                        <div>Analytics</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Results (70-85 sec) -->
+        <div class="slide slide-7">
+            <div class="slide-content">
+                <h2>Real Results. Real Companies.</h2>
+                <div class="results-grid">
+                    <div class="result-item">
+                        <div class="result-number">60%</div>
+                        <div class="result-label">Faster Processing</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">94%</div>
+                        <div class="result-label">Fewer Errors</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">3</div>
+                        <div class="result-label">Month Payback</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-number">₹3L+</div>
+                        <div class="result-label">Annual Savings</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Case Study (85-105 sec) -->
+        <div class="slide slide-8">
+            <div class="slide-content">
+                <h2>Real Case Study: Reliance Logistics</h2>
+                <div class="case-study-box">
+                    <div class="company-name">Reliance Logistics</div>
+                    <div>✓ Process: 500 invoices/month</div>
+                    <div>✓ Time Saved: 15 hours/week</div>
+                    <div>✓ Cost Saved: ₹3 Lakh annually</div>
+                    <div style="font-style: italic; opacity: 0.95; margin-top: 25px;">"Aetra is worth every rupee. Our team can focus on strategy instead of data entry."</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: CTA (105-120 sec) -->
+        <div class="slide slide-9">
+            <div class="slide-content">
+                <h2>Ready to Save 60%?</h2>
+                <div class="cta-text">Get Started Free Today</div>
+                <p class="cta-subtext">No credit card. No commitment. 14-day trial.</p>
+                <button class="cta-button">Start Free Trial →</button>
+                <div class="website-url">Visit: freightflow.in</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-counter">
+        <span id="current-slide">1</span> / <span id="total-slides">9</span>
+    </div>
+
+    <div class="timing-info">
+        ⏱️ 2-Minute Video | ⌨️ Arrow Keys | 🎯 Space to Play
+    </div>
+
+    <button class="voiceover-toggle" id="voiceover-btn" onclick="toggleVoiceover()">🔊 Voiceover: OFF</button>
+
+    <div class="controls">
+        <button id="prev-btn" onclick="previousSlide()">← Prev</button>
+        <button id="play-btn" onclick="toggleAutoPlay()" style="background: #667eea; color: white;">▶ Auto Play</button>
+        <button id="next-btn" onclick="nextSlide()">Next →</button>
+    </div>
+
+    <div class="progress-bar" id="progress"></div>
+
+    <script>
+        let currentSlide = 0;
+        let isAutoPlaying = false;
+        let autoPlayInterval = null;
+        let voiceoverEnabled = false;
+        let synth = window.speechSynthesis;
+        
+        // Slide timing for 2-minute video (120 seconds)
+        const slideTiming = [
+            10,  // Slide 1: Title (0-10 sec)
+            15,  // Slide 2: Problem (10-25 sec)
+            10,  // Slide 3: Manual Process (25-35 sec)
+            10,  // Slide 4: Time Cost (35-45 sec)
+            10,  // Slide 5: Solution Intro (45-55 sec)
+            15,  // Slide 6: AI Solution (55-70 sec)
+            15,  // Slide 7: Results (70-85 sec)
+            20,  // Slide 8: Case Study (85-105 sec)
+            15   // Slide 9: CTA (105-120 sec)
+        ];
+
+        // Voiceover scripts for each slide
+        const voiceScripts = [
+            "Aetra. Save 60% time on freight invoicing. AI-powered invoice automation for Indian logistics.",
+            "The problem today. 30 to 40 minutes per invoice. 8 to 12 percent error rate. 3 to 5 days on GST reconciliation. 3 to 5 Lakh rupees annual cost.",
+            "Today's manual process. Open invoice. Type data. Calculate GST. 40 minutes of work.",
+            "The cost of manual processing. 1000 invoices equals 667 hours. That's 16 to 17 weeks of full-time work. 8 to 10 Lakh rupees in annual salary cost. And errors still happen.",
+            "Meet Aetra. Upload. AI extracts. Done. From 40 minutes to 3 seconds per invoice. Powered by Indian GST compliance and advanced AI.",
+            "How Aetra works. Upload invoice. AI extracts data. Auto calculate GST. Get instant analytics.",
+            "Real results from real companies. 60 percent faster processing. 94 percent fewer errors. 3 month payback period. 3 Lakh rupees plus annual savings.",
+            "Real case study. Reliance Logistics processes 500 invoices per month. Time saved: 15 hours per week. Cost saved: 3 Lakh rupees annually. Reliance says: Aetra is worth every rupee. Our team can focus on strategy instead of data entry.",
+            "Ready to save 60 percent? Get started free today. No credit card. No commitment. 14-day trial. Visit freightflow dot in."
+        ];
+
+        const totalSlides = document.querySelectorAll('.slide').length;
+        document.getElementById('total-slides').textContent = totalSlides;
+
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.slide');
+            
+            if (n >= totalSlides) {
+                currentSlide = totalSlides - 1;
+            }
+            if (n < 0) {
+                currentSlide = 0;
+            }
+            
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[currentSlide].classList.add('active');
+            
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+            
+            // Update progress bar
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+            
+            // Update button states
+            document.getElementById('prev-btn').disabled = currentSlide === 0;
+            document.getElementById('next-btn').disabled = currentSlide === totalSlides - 1;
+
+            // Play voiceover if enabled
+            if (voiceoverEnabled) {
+                playVoiceover(currentSlide);
+            }
+        }
+
+        function nextSlide() {
+            currentSlide++;
+            showSlide(currentSlide);
+        }
+
+        function previousSlide() {
+            currentSlide--;
+            showSlide(currentSlide);
+        }
+
+        function toggleVoiceover() {
+            voiceoverEnabled = !voiceoverEnabled;
+            const btn = document.getElementById('voiceover-btn');
+            
+            if (voiceoverEnabled) {
+                btn.textContent = '🔊 Voiceover: ON';
+                btn.classList.add('active');
+                playVoiceover(currentSlide);
+            } else {
+                btn.textContent = '🔊 Voiceover: OFF';
+                btn.classList.remove('active');
+                synth.cancel();
+            }
+        }
+
+        function playVoiceover(slideIndex) {
+            synth.cancel(); // Cancel any ongoing speech
+            
+            const utterance = new SpeechSynthesisUtterance(voiceScripts[slideIndex]);
+            utterance.lang = 'en-IN';
+            utterance.rate = 1;
+            utterance.pitch = 1;
+            utterance.volume = 1;
+            
+            synth.speak(utterance);
+        }
+
+        function toggleAutoPlay() {
+            isAutoPlaying = !isAutoPlaying;
+            const btn = document.getElementById('play-btn');
+            
+            if (isAutoPlaying) {
+                btn.textContent = '⏸ Pause';
+                btn.style.background = '#f5576c';
+                currentSlide = 0;
+                showSlide(0);
+                autoPlaySlides();
+            } else {
+                btn.textContent = '▶ Auto Play';
+                btn.style.background = '#667eea';
+                if (autoPlayInterval) clearInterval(autoPlayInterval);
+                synth.cancel();
+            }
+        }
+
+        function autoPlaySlides() {
+            let slideIndex = 0;
+            
+            function playNext() {
+                if (slideIndex < totalSlides) {
+                    const delay = slideTiming[slideIndex] * 1000;
+                    currentSlide = slideIndex;
+                    showSlide(currentSlide);
+                    slideIndex++;
+                    
+                    autoPlayInterval = setTimeout(playNext, delay);
+                } else {
+                    isAutoPlaying = false;
+                    document.getElementById('play-btn').textContent = '▶ Auto Play';
+                    document.getElementById('play-btn').style.background = '#667eea';
+                    synth.cancel();
+                }
+            }
+            
+            playNext();
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') previousSlide();
+            if (e.key === ' ') {
+                e.preventDefault();
+                toggleAutoPlay();
+            }
+        });
+
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>

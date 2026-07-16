@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aetra — Enterprise Freight Intelligence for Indian Logistics</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' font-weight='bold' fill='%23ff6b35'>L</text></svg>" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0066ff;
+            --primary-dark: #0052cc;
+            --secondary: #00d4ff;
+            --accent: #ff6b35;
+            --success: #00c853;
+            --warning: #ffa500;
+            --danger: #ff3b30;
+            --bg: #f8f9fa;
+            --bg-dark: #ffffff;
+            --text-primary: #0a0e27;
+            --text-secondary: #565e7e;
+            --border: #e5eaef;
+            --border-light: #f0f2f5;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+            color: var(--text-primary);
+            background: #ffffff;
+            line-height: 1.6;
+            letter-spacing: -0.3px;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 60px;
+            border-bottom: 1px solid var(--border-light);
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--text-primary);
+            letter-spacing: -1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 600;
+            transition: color 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .btn-login {
+            padding: 8px 18px;
+            border: 1px solid var(--border);
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+
+        .btn-login:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: rgba(0, 102, 255, 0.05);
+        }
+
+        .btn-signup {
+            padding: 10px 24px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 700;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(0, 102, 255, 0.2);
+        }
+
+        .btn-signup:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 102, 255, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 120px 60px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            background: linear-gradient(135deg, rgba(0, 102, 255, 0.1) 0%, rgba(0, 212, 255, 0.1) 100%);
+            border: 1px solid rgba(0, 102, 255, 0.2);
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 28px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .hero h1 {
+            font-size: 64px;
+            line-height: 1.1;
+            margin-bottom: 28px;
+            color: var(--text-primary);
+            font-weight: 800;
+            letter-spacing: -1.2px;
+        }
+
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            max-width: 700px;
+            line-height: 1.8;
+            font-weight: 500;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 80px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            padding: 14px 32px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 16px rgba(0, 102, 255, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0, 102, 255, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            padding: 14px 32px;
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 102, 255, 0.05);
+            transform: translateY(-3px);
+        }
+
+        /* Stats Section */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px;
+            margin-top: 0;
+            padding-top: 60px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .stat-item {
+            text-align: left;
+            padding: 24px;
+            background: linear-gradient(135deg, rgba(0, 102, 255, 0.05) 0%, rgba(0, 212, 255, 0.05) 100%);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 102, 255, 0.1);
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 120px 60px;
+            background: var(--bg);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            text-align: center;
+            color: var(--text-primary);
+            letter-spacing: -0.8px;
+        }
+
+        .section-subtitle {
+            font-size: 16px;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 80px;
+            font-weight: 500;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+
+        .feature-card {
+            background: #fff;
+            padding: 44px 36px;
+            border-radius: 16px;
+            border: 1px solid var(--border-light);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .feature-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 12px 40px rgba(0, 102, 255, 0.12);
+            transform: translateY(-8px);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            font-size: 44px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .feature-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .feature-card p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-weight: 500;
+        }
+
+        /* Live Feed Section */
+        .live-feed {
+            padding: 120px 60px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .live-feed h2 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+            letter-spacing: -0.8px;
+        }
+
+        .feed-subtitle {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 60px;
+            font-weight: 500;
+        }
+
+        .feed-items {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .feed-item {
+            border-left: 4px solid var(--primary);
+            background: linear-gradient(135deg, rgba(0, 102, 255, 0.02) 0%, rgba(0, 212, 255, 0.02) 100%);
+            padding: 28px 28px;
+            border-radius: 12px;
+            border: 1px solid var(--border-light);
+            transition: all 0.3s;
+        }
+
+        .feed-item:hover {
+            transform: translateX(4px);
+            box-shadow: 0 8px 24px rgba(0, 102, 255, 0.08);
+        }
+
+        .feed-item.warning {
+            border-left-color: var(--warning);
+            background: linear-gradient(135deg, rgba(255, 165, 0, 0.02) 0%, rgba(255, 165, 0, 0.02) 100%);
+        }
+
+        .feed-item.success {
+            border-left-color: var(--success);
+            background: linear-gradient(135deg, rgba(0, 200, 83, 0.02) 0%, rgba(0, 200, 83, 0.02) 100%);
+        }
+
+        .feed-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            gap: 12px;
+        }
+
+        .feed-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .feed-time {
+            font-size: 12px;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            font-weight: 500;
+        }
+
+        .feed-description {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .feed-action {
+            margin-top: 16px;
+            font-size: 13px;
+            color: var(--primary);
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            transition: color 0.2s;
+        }
+
+        .feed-action:hover {
+            color: var(--primary-dark);
+        }
+
+        /* Integration Section */
+        .integrations {
+            padding: 80px 60px;
+            background: var(--bg);
+            text-align: center;
+        }
+
+        .integrations h3 {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .integration-logos {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .integration-logo {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            padding: 14px 24px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: #fff;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .integration-logo:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: rgba(0, 102, 255, 0.05);
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 120px 60px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .pricing h2 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            text-align: center;
+            color: var(--text-primary);
+            letter-spacing: -0.8px;
+        }
+
+        .pricing-subtitle {
+            font-size: 16px;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 80px;
+            font-weight: 500;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+
+        .pricing-card {
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            padding: 44px 36px;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #fff;
+            position: relative;
+        }
+
+        .pricing-card.featured {
+            border: 2px solid var(--primary);
+            transform: scale(1.05);
+            box-shadow: 0 24px 48px rgba(0, 102, 255, 0.15);
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: #fff;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .plan-name {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .plan-price {
+            font-size: 48px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .plan-period {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 36px;
+            font-weight: 600;
+        }
+
+        .plan-features {
+            text-align: left;
+            margin-bottom: 36px;
+            list-style: none;
+        }
+
+        .plan-features li {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-light);
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .plan-features li:before {
+            content: "✓";
+            color: var(--success);
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .plan-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--border-light);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-primary);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .plan-btn:hover {
+            background: var(--border);
+            transform: translateY(-2px);
+        }
+
+        .pricing-card.featured .plan-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: #fff;
+            border: none;
+            box-shadow: 0 8px 20px rgba(0, 102, 255, 0.3);
+        }
+
+        .pricing-card.featured .plan-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(0, 102, 255, 0.4);
+        }
+
+        /* CTA Section */
+        .final-cta {
+            padding: 120px 60px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 50%, var(--secondary) 100%);
+            color: #fff;
+            text-align: center;
+        }
+
+        .final-cta h2 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -0.8px;
+        }
+
+        .final-cta p {
+            font-size: 18px;
+            margin-bottom: 40px;
+            opacity: 0.95;
+            font-weight: 500;
+            line-height: 1.7;
+        }
+
+        .btn-white {
+            padding: 14px 40px;
+            background: #fff;
+            color: var(--primary);
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 15px;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .btn-white:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Footer */
+        footer {
+            background: #0a0e27;
+            color: var(--text-secondary);
+            padding: 60px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        footer a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 20px;
+            transition: color 0.2s;
+        }
+
+        footer a:hover {
+            color: var(--primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                padding: 16px 24px;
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .nav-links {
+                gap: 16px;
+                font-size: 12px;
+                flex-wrap: wrap;
+            }
+
+            .nav-buttons {
+                width: 100%;
+                justify-content: center;
+                gap: 8px;
+            }
+
+            .hero {
+                padding: 80px 24px;
+            }
+
+            .hero h1 {
+                font-size: 40px;
+                line-height: 1.2;
+            }
+
+            .hero p {
+                font-size: 16px;
+                line-height: 1.6;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+            }
+
+            .stat-item {
+                padding: 16px;
+            }
+
+            .features, .live-feed, .pricing {
+                padding: 80px 24px;
+            }
+
+            .section-title, .live-feed h2, .pricing h2 {
+                font-size: 32px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .feed-items {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-card.featured {
+                transform: none;
+            }
+
+            .integration-logos {
+                gap: 12px;
+            }
+
+            .final-cta {
+                padding: 80px 24px;
+            }
+
+            .final-cta h2 {
+                font-size: 32px;
+            }
+
+            footer {
+                padding: 40px 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">🚛 <span>Aetra</span></div>
+        <ul class="nav-links">
+            <li><a href="#features">Features</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#docs">Docs</a></li>
+        </ul>
+        <div class="nav-buttons">
+            <a href="/decisions" style="text-decoration: none;"><button class="btn-login">📊 Live Decisions</button></a>
+            <a href="/analytics" style="text-decoration: none;"><button class="btn-login">📈 Analytics</button></a>
+            <button class="btn-login">Login</button>
+            <button class="btn-signup">Start Free</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-badge">🚚 Fleet Intelligence Platform</div>
+        <h1>Your <span class="highlight">AI Fleet Manager</span> for smarter logistics decisions.</h1>
+        <p>Know your route efficiency, fuel costs, and delivery risks — before they impact your bottom line. Built for multi-warehouse operations, FTL/LTL shipments, and enterprise logistics.</p>
+        
+        <div class="cta-buttons">
+            <a href="/decisions" style="text-decoration: none;"><button class="btn-primary">⚡ See Live Decisions (2-min Demo)</button></a>
+            <a href="/analytics" style="text-decoration: none;"><button class="btn-secondary">📊 View YoY Savings Report</button></a>
+        </div>
+
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-number">156</div>
+                <div class="stat-label">Active Shipments</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">₹2.3Cr</div>
+                <div class="stat-label">Avg Cost Saved</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">34%</div>
+                <div class="stat-label">Faster Routing</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">Free</div>
+                <div class="stat-label">To Start</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <h2 class="section-title">Optimize Every Shipment</h2>
+        <p class="section-subtitle">Powerful features designed for modern logistics operations</p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Real-Time Fleet Visibility</h3>
+                <p>Track all trucks, drivers, and shipments across multiple hubs. Get live updates on location, capacity utilization, and delivery status.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🗺️</div>
+                <h3>AI-Powered Route Optimization</h3>
+                <p>Automatic route suggestions based on traffic, fuel costs, delivery windows, and driver availability. Reduce mileage by 25% instantly.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💰</div>
+                <h3>Cost Analytics & Insights</h3>
+                <p>Per-shipment cost breakdown, fuel efficiency tracking, and profit margin analysis. Identify cost leakage before it impacts revenue.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚠️</div>
+                <h3>Risk & Compliance Alerts</h3>
+                <p>Proactive alerts for driver compliance, vehicle maintenance due, regulatory changes, and delivery anomalies.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>Mobile Driver App</h3>
+                <p>Real-time navigation, proof-of-delivery capture, customer communication, and performance metrics for drivers.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔗</div>
+                <h3>Enterprise Integrations</h3>
+                <p>Connect with TMS, ERP, accounting software, and existing dispatch systems. API-first architecture for custom workflows.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Feed Section -->
+    <section class="live-feed" id="how-it-works">
+        <h2>Fleet Decision Feed — Live</h2>
+        <p class="feed-subtitle">Real-time alerts to optimize your operations</p>
+        
+        <div class="feed-items">
+            <div class="feed-item warning">
+                <div class="feed-header">
+                    <div class="feed-title">Route A will cost 23% more due to fuel surge</div>
+                    <div class="feed-time">2 min ago</div>
+                </div>
+                <div class="feed-description">Current fuel price ₹92/L. Switch to Route B (alternate via Pune) to save ₹8,400.</div>
+                <div class="feed-action">→ View alternate routes</div>
+            </div>
+
+            <div class="feed-item">
+                <div class="feed-header">
+                    <div class="feed-title">3 trucks at 45% capacity</div>
+                    <div class="feed-time">5 min ago</div>
+                </div>
+                <div class="feed-description">Consolidate pending shipments to reduce per-unit cost. 12 available slots across Mumbai routes.</div>
+                <div class="feed-action">→ View consolidation options</div>
+            </div>
+
+            <div class="feed-item success">
+                <div class="feed-header">
+                    <div class="feed-title">Driver compliance due for renewal</div>
+                    <div class="feed-time">1 hour ago</div>
+                </div>
+                <div class="feed-description">Driver Ramesh (DRV-2847) needs license renewal in 7 days. Reassign to backup pool.</div>
+                <div class="feed-action">→ Manage driver assignments</div>
+            </div>
+
+            <div class="feed-item warning">
+                <div class="feed-header">
+                    <div class="feed-title">Warehouse ABC at 92% capacity</div>
+                    <div class="feed-time">20 min ago</div>
+                </div>
+                <div class="feed-description">Incoming 15 pallets in 2 hours. Divert 8 pallets to warehouse XYZ to prevent overflow.</div>
+                <div class="feed-action">→ Review inventory levels</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Integrations -->
+    <section class="integrations">
+        <h3>Integrates with your existing systems</h3>
+        <div class="integration-logos">
+            <div class="integration-logo">SAP</div>
+            <div class="integration-logo">Oracle Netsuite</div>
+            <div class="integration-logo">Zoho One</div>
+            <div class="integration-logo">Microsoft Dynamics</div>
+            <div class="integration-logo">Tally Prime</div>
+            <div class="integration-logo">Custom API</div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="pricing" id="pricing">
+        <h2>Simple, Transparent Pricing</h2>
+        <p class="pricing-subtitle">Choose the plan that fits your logistics operation</p>
+        
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <div class="plan-name">Starter</div>
+                <div class="plan-price">Free</div>
+                <div class="plan-period">First month, unlimited usage</div>
+                <ul class="plan-features">
+                    <li>Up to 5 trucks</li>
+                    <li>Basic route optimization</li>
+                    <li>Real-time tracking</li>
+                    <li>Email support</li>
+                    <li>7-day analytics</li>
+                </ul>
+                <button class="plan-btn">Get Started</button>
+            </div>
+
+            <div class="pricing-card featured">
+                <div class="pricing-badge">🚀 Most Popular</div>
+                <div class="plan-name">Professional</div>
+                <div class="plan-price">₹12,999</div>
+                <div class="plan-period">Per month • 50+ trucks</div>
+                <ul class="plan-features">
+                    <li>Up to 50 trucks</li>
+                    <li>Advanced AI routing</li>
+                    <li>Real-time tracking</li>
+                    <li>Priority support</li>
+                    <li>90-day analytics</li>
+                    <li>Custom dashboards</li>
+                    <li>API access</li>
+                </ul>
+                <button class="plan-btn">Start Free Trial</button>
+            </div>
+
+            <div class="pricing-card">
+                <div class="plan-name">Enterprise</div>
+                <div class="plan-price">Custom</div>
+                <div class="plan-period">Unlimited trucks • Custom features</div>
+                <ul class="plan-features">
+                    <li>Unlimited trucks</li>
+                    <li>Multi-warehouse operations</li>
+                    <li>Real-time tracking</li>
+                    <li>Dedicated account manager</li>
+                    <li>Unlimited analytics</li>
+                    <li>Custom integrations</li>
+                    <li>On-premise option</li>
+                </ul>
+                <button class="plan-btn">Contact Sales</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta">
+        <h2>⚡ See Aetra In Action</h2>
+        <p>Real-time decision feed + YoY savings analytics. No signup required.</p>
+        <div class="cta-buttons" style="margin-top: 30px;">
+            <a href="/decisions" style="text-decoration: none;"><button class="btn-primary">View Live Decision Feed</button></a>
+            <a href="/analytics" style="text-decoration: none;"><button class="btn-secondary">📊 See Savings Report</button></a>
+        </div>
+        <p style="margin-top: 30px; font-size: 14px; color: #666;">Join 500+ Indian logistics SMEs saving ₹5Cr+ annually with Aetra.</p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Aetra. All rights reserved.</p>
+        <div>
+            <a href="#privacy">Privacy Policy</a>
+            <a href="#terms">Terms of Service</a>
+            <a href="#contact">Contact Us</a>
+        </div>
+    </footer>
+</body>
+</html>

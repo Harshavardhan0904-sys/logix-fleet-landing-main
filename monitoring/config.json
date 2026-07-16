@@ -1,0 +1,57 @@
+{
+  "version": "1.0",
+  "createdAt": "2026-05-21T20:43:33.998243",
+  "monitoring": {
+    "cache": {
+      "enabled": true,
+      "sampleInterval": 10,
+      "thresholds": {
+        "critical": 50,
+        "warning": 75,
+        "healthy": 85
+      },
+      "alerting": true
+    },
+    "performance": {
+      "enabled": true,
+      "trackByEndpoint": true,
+      "percentiles": [
+        50,
+        95,
+        99
+      ],
+      "thresholds": {
+        "p95": 300,
+        "p99": 1000
+      }
+    },
+    "rateLimit": {
+      "enabled": true,
+      "trackingGranularity": "endpoint",
+      "alertThreshold": 500
+    },
+    "database": {
+      "enabled": true,
+      "slowQueryThreshold": 100,
+      "logAllQueries": false
+    }
+  },
+  "alerts": {
+    "channels": [
+      "console",
+      "email",
+      "slack"
+    ],
+    "severityLevels": [
+      "INFO",
+      "WARNING",
+      "CRITICAL"
+    ],
+    "retentionDays": 30
+  },
+  "reporting": {
+    "dailyReports": true,
+    "weeklyAnalysis": true,
+    "recipients": []
+  }
+}

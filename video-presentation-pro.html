@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aetra - Modern SaaS Video Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .presentation {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #0a0e27;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        @keyframes shimmer { 0% { background-position: -1000px 0; } 100% { background-position: 1000px 0; } }
+
+        /* ==================== SLIDE 1: INTRO - The Problem ===================  */
+        .slide-1 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .slide-1 .content {
+            animation: slideUp 1s ease-out;
+        }
+
+        .slide-1 h1 {
+            font-size: 72px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 20px;
+            animation: slideUp 0.8s ease-out 0.2s both;
+        }
+
+        .slide-1 .tagline {
+            font-size: 28px;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 40px;
+            animation: slideUp 0.8s ease-out 0.4s both;
+        }
+
+        .slide-1 .emoji-big {
+            font-size: 100px;
+            animation: pulse 2s infinite;
+            margin-bottom: 20px;
+        }
+
+        /* ==================== SLIDE 2: THE PAIN ===================  */
+        .slide-2 {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 60px;
+        }
+
+        .slide-2 .pain-section {
+            max-width: 1200px;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .slide-2 h2 {
+            font-size: 48px;
+            color: #ff6b6b;
+            margin-bottom: 50px;
+            font-weight: 800;
+            animation: slideUp 0.8s ease-out 0.1s both;
+        }
+
+        .pain-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .pain-left {
+            text-align: left;
+            animation: slideUp 0.8s ease-out 0.2s both;
+        }
+
+        .pain-item {
+            display: flex;
+            align-items: flex-start;
+            margin: 25px 0;
+            font-size: 22px;
+            color: #fff;
+        }
+
+        .pain-icon {
+            font-size: 40px;
+            margin-right: 20px;
+            min-width: 50px;
+        }
+
+        .pain-right {
+            position: relative;
+            animation: slideUp 0.8s ease-out 0.4s both;
+        }
+
+        .invoice-mockup {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            text-align: left;
+        }
+
+        .invoice-header {
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .invoice-line {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .manual-marker {
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            background: #ff6b6b;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 14px;
+            animation: pulse 2s infinite;
+        }
+
+        /* ==================== SLIDE 3: TRANSITION ===================  */
+        .slide-3 {
+            background: linear-gradient(90deg, #ff6b6b 0%, #4ecdc4 100%);
+            padding: 60px;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .slide-3 h2 {
+            font-size: 56px;
+            color: white;
+            font-weight: 800;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .transition-arrow {
+            font-size: 80px;
+            margin: 40px 0;
+            animation: pulse 1.5s infinite;
+        }
+
+        .transition-text {
+            font-size: 28px;
+            color: rgba(255,255,255,0.95);
+            font-weight: 600;
+            animation: slideUp 0.8s ease-out 0.2s both;
+        }
+
+        /* ==================== SLIDE 4: SOLUTION HERO ===================  */
+        .slide-4 {
+            background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+            padding: 60px;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .slide-4 h1 {
+            font-size: 64px;
+            color: #4ecdc4;
+            font-weight: 800;
+            margin-bottom: 30px;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .slide-4 .hero-desc {
+            font-size: 28px;
+            color: #fff;
+            margin-bottom: 30px;
+            font-weight: 600;
+            animation: slideUp 0.8s ease-out 0.2s both;
+        }
+
+        .slide-4 .hero-benefits {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .benefit-badge {
+            background: rgba(78, 205, 196, 0.2);
+            border: 2px solid #4ecdc4;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 16px;
+            color: #4ecdc4;
+            font-weight: 700;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .benefit-badge:nth-child(2) { animation-delay: 0.3s; }
+        .benefit-badge:nth-child(3) { animation-delay: 0.6s; }
+
+        /* ==================== SLIDE 5: FEATURE SHOWCASE ===================  */
+        .slide-5 {
+            background: #1a1a2e;
+            padding: 60px;
+        }
+
+        .slide-5 h2 {
+            font-size: 48px;
+            color: #4ecdc4;
+            margin-bottom: 50px;
+            font-weight: 800;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, rgba(78,205,196,0.1) 0%, rgba(255,107,107,0.1) 100%);
+            border: 2px solid rgba(78,205,196,0.3);
+            padding: 40px;
+            border-radius: 20px;
+            animation: slideUp 0.6s ease-out;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:nth-child(1) { animation-delay: 0.1s; }
+        .feature-card:nth-child(2) { animation-delay: 0.3s; }
+        .feature-card:nth-child(3) { animation-delay: 0.5s; }
+        .feature-card:nth-child(4) { animation-delay: 0.7s; }
+
+        .feature-card:hover {
+            border-color: #4ecdc4;
+            transform: translateY(-10px);
+            background: linear-gradient(135deg, rgba(78,205,196,0.2) 0%, rgba(255,107,107,0.2) 100%);
+        }
+
+        .feature-icon {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 24px;
+            color: #4ecdc4;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .feature-desc {
+            font-size: 16px;
+            color: rgba(255,255,255,0.8);
+            line-height: 1.6;
+        }
+
+        /* ==================== SLIDE 6: WORKFLOW ===================  */
+        .slide-6 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 60px;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .slide-6 h2 {
+            font-size: 48px;
+            color: white;
+            margin-bottom: 60px;
+            font-weight: 800;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .workflow-steps {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .workflow-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        .workflow-step:nth-child(1) { animation-delay: 0.1s; }
+        .workflow-step:nth-child(3) { animation-delay: 0.3s; }
+        .workflow-step:nth-child(5) { animation-delay: 0.5s; }
+        .workflow-step:nth-child(7) { animation-delay: 0.7s; }
+
+        .step-circle {
+            width: 100px;
+            height: 100px;
+            background: rgba(255,255,255,0.2);
+            border: 3px solid white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .workflow-step:hover .step-circle {
+            background: white;
+            transform: scale(1.1);
+        }
+
+        .step-label {
+            font-size: 16px;
+            color: white;
+            font-weight: 600;
+            text-align: center;
+            min-width: 80px;
+        }
+
+        .arrow-big {
+            font-size: 40px;
+            color: white;
+            opacity: 0.7;
+        }
+
+        /* ==================== SLIDE 7: RESULTS ===================  */
+        .slide-7 {
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+            padding: 60px;
+        }
+
+        .slide-7 h2 {
+            font-size: 48px;
+            color: #4ecdc4;
+            margin-bottom: 50px;
+            font-weight: 800;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .results-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .result-box {
+            background: rgba(78, 205, 196, 0.1);
+            border: 2px solid #4ecdc4;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        .result-box:nth-child(1) { animation-delay: 0.1s; }
+        .result-box:nth-child(2) { animation-delay: 0.3s; }
+        .result-box:nth-child(3) { animation-delay: 0.5s; }
+
+        .result-number {
+            font-size: 56px;
+            color: #4ecdc4;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .result-label {
+            font-size: 18px;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        /* ==================== SLIDE 8: REAL PROOF ===================  */
+        .slide-8 {
+            background: linear-gradient(135deg, #16213e 0%, #0f3460 100%);
+            padding: 60px;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .slide-8 h2 {
+            font-size: 48px;
+            color: #ff6b6b;
+            margin-bottom: 40px;
+            font-weight: 800;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .proof-box {
+            background: linear-gradient(135deg, rgba(78,205,196,0.1) 0%, rgba(255,107,107,0.05) 100%);
+            border-left: 5px solid #4ecdc4;
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+            animation: slideUp 0.8s ease-out 0.2s both;
+        }
+
+        .company-name {
+            font-size: 32px;
+            color: #4ecdc4;
+            font-weight: 800;
+            margin-bottom: 25px;
+        }
+
+        .proof-stat {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            font-size: 18px;
+            color: #fff;
+        }
+
+        .proof-stat-icon {
+            font-size: 28px;
+            margin-right: 20px;
+            min-width: 40px;
+        }
+
+        .proof-quote {
+            font-size: 20px;
+            color: rgba(78,205,196,0.9);
+            font-style: italic;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid rgba(78,205,196,0.3);
+        }
+
+        /* ==================== SLIDE 9: CTA ===================  */
+        .slide-9 {
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px;
+        }
+
+        .slide-9 h1 {
+            font-size: 56px;
+            color: white;
+            font-weight: 800;
+            margin-bottom: 20px;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .slide-9 .tagline {
+            font-size: 28px;
+            color: rgba(255,255,255,0.95);
+            margin-bottom: 40px;
+            font-weight: 600;
+            animation: slideUp 0.8s ease-out 0.2s both;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: slideUp 0.8s ease-out 0.4s both;
+        }
+
+        .cta-btn {
+            background: white;
+            color: #4ecdc4;
+            border: none;
+            padding: 18px 50px;
+            font-size: 20px;
+            font-weight: 800;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .cta-url {
+            font-size: 18px;
+            color: rgba(255,255,255,0.9);
+            margin-top: 40px;
+            animation: slideUp 0.8s ease-out 0.6s both;
+            font-weight: 600;
+        }
+
+        /* ==================== CONTROLS ===================  */
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border-radius: 60px;
+            backdrop-filter: blur(10px);
+        }
+
+        button {
+            background: #4ecdc4;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            color: #0f3460;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 700;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .progress-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #4ecdc4 0%, #ff6b6b 100%);
+            transition: width 0.3s ease;
+        }
+
+        .voiceover-toggle {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 700;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .voiceover-toggle:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .voiceover-toggle.active {
+            background: #4ecdc4;
+            color: #0f3460;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation">
+        <!-- SLIDE 1: Intro -->
+        <div class="slide slide-1 active">
+            <div class="content">
+                <div class="emoji-big">🚛</div>
+                <h1>Aetra</h1>
+                <div class="tagline">Your invoices. Seconds. Not hours.</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: The Pain -->
+        <div class="slide slide-2">
+            <div class="pain-section">
+                <h2>Your Invoice Nightmare 😫</h2>
+                <div class="pain-container">
+                    <div class="pain-left">
+                        <div class="pain-item">
+                            <div class="pain-icon">📄</div>
+                            <div>Stack of invoices pile up every week</div>
+                        </div>
+                        <div class="pain-item">
+                            <div class="pain-icon">⌨️</div>
+                            <div>Manual typing. Hours wasted.</div>
+                        </div>
+                        <div class="pain-item">
+                            <div class="pain-icon">❌</div>
+                            <div>Errors slip through (8-12% miss)</div>
+                        </div>
+                        <div class="pain-item">
+                            <div class="pain-icon">💰</div>
+                            <div>₹3-5 Lakhs lost to corrections</div>
+                        </div>
+                    </div>
+                    <div class="pain-right">
+                        <div class="manual-marker">Manual 40 min</div>
+                        <div class="invoice-mockup">
+                            <div class="invoice-header">Invoice #INV-2024-001</div>
+                            <div class="invoice-line">
+                                <span>Invoice Number:</span>
+                                <span>INV-2024-001</span>
+                            </div>
+                            <div class="invoice-line">
+                                <span>Vendor:</span>
+                                <span>________________</span>
+                            </div>
+                            <div class="invoice-line">
+                                <span>Amount:</span>
+                                <span>₹________________</span>
+                            </div>
+                            <div class="invoice-line">
+                                <span>GST (18%):</span>
+                                <span>________________</span>
+                            </div>
+                            <div class="invoice-line">
+                                <span>Total:</span>
+                                <span>________________</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: Transition -->
+        <div class="slide slide-3">
+            <h2>What if it was different?</h2>
+            <div class="transition-arrow">⬇️</div>
+            <div class="transition-text">Upload. AI Works. Done.</div>
+        </div>
+
+        <!-- SLIDE 4: Solution Hero -->
+        <div class="slide slide-4">
+            <h1>Meet Aetra</h1>
+            <div class="hero-desc">The AI that understands Indian freight invoices</div>
+            <div class="hero-benefits">
+                <div class="benefit-badge">📸 Upload Anything</div>
+                <div class="benefit-badge">🤖 AI Extracts</div>
+                <div class="benefit-badge">💯 100% Accurate GST</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: Features Showcase -->
+        <div class="slide slide-5">
+            <h2>What Makes Us Different 🚀</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📸</div>
+                    <div class="feature-title">Smart OCR</div>
+                    <div class="feature-desc">Upload photos, PDFs, or scans. Our AI reads them instantly with 95%+ accuracy.</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🧮</div>
+                    <div class="feature-title">Auto GST</div>
+                    <div class="feature-desc">Calculates Indian GST automatically. CGST, SGST, IGST. Zero manual math.</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <div class="feature-title">Vendor Match</div>
+                    <div class="feature-desc">Auto-matches vendors from your database. No duplicate entries.</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <div class="feature-title">Real Analytics</div>
+                    <div class="feature-desc">See patterns, spot savings, track trends instantly.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: Workflow -->
+        <div class="slide slide-6">
+            <h2>How It Works (In 3 Steps)</h2>
+            <div class="workflow-steps">
+                <div class="workflow-step">
+                    <div class="step-circle">📸</div>
+                    <div class="step-label">Upload</div>
+                </div>
+                <div class="arrow-big">→</div>
+                <div class="workflow-step">
+                    <div class="step-circle">🤖</div>
+                    <div class="step-label">AI Magic</div>
+                </div>
+                <div class="arrow-big">→</div>
+                <div class="workflow-step">
+                    <div class="step-circle">✅</div>
+                    <div class="step-label">Done!</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: Results -->
+        <div class="slide slide-7">
+            <h2>The Real Numbers 📈</h2>
+            <div class="results-container">
+                <div class="result-box">
+                    <div class="result-number">60%</div>
+                    <div class="result-label">Faster Processing</div>
+                </div>
+                <div class="result-box">
+                    <div class="result-number">94%</div>
+                    <div class="result-label">Fewer Errors</div>
+                </div>
+                <div class="result-box">
+                    <div class="result-number">3 Mo</div>
+                    <div class="result-label">Payback Period</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: Real Proof -->
+        <div class="slide slide-8">
+            <h2>What Companies Are Saying 💬</h2>
+            <div class="proof-box">
+                <div class="company-name">Reliance Logistics</div>
+                <div class="proof-stat">
+                    <div class="proof-stat-icon">📦</div>
+                    <div>500+ invoices/month</div>
+                </div>
+                <div class="proof-stat">
+                    <div class="proof-stat-icon">⏱️</div>
+                    <div>Saved 15 hours/week</div>
+                </div>
+                <div class="proof-stat">
+                    <div class="proof-stat-icon">💵</div>
+                    <div>₹3 Lakh annual savings</div>
+                </div>
+                <div class="proof-quote">"We went from 'who's handling invoices today?' to automated peace of mind."</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 9: CTA -->
+        <div class="slide slide-9">
+            <h1>Stop Wasting Time</h1>
+            <div class="tagline">Start your free trial today. No card. No commitment.</div>
+            <div class="cta-buttons">
+                <button class="cta-btn">Get Free Trial</button>
+            </div>
+            <div class="cta-url">freightflow.in</div>
+        </div>
+    </div>
+
+    <div class="slide-counter">
+        <span id="current-slide">1</span> / <span id="total-slides">9</span>
+    </div>
+
+    <button class="voiceover-toggle" id="voiceover-btn" onclick="toggleVoiceover()">🔊 Voiceover: OFF</button>
+
+    <div class="controls">
+        <button id="prev-btn" onclick="previousSlide()">← Prev</button>
+        <button id="play-btn" onclick="toggleAutoPlay()">▶ Play</button>
+        <button id="next-btn" onclick="nextSlide()">Next →</button>
+    </div>
+
+    <div class="progress-bar" id="progress"></div>
+
+    <script>
+        let currentSlide = 0;
+        let isAutoPlaying = false;
+        let voiceoverEnabled = false;
+        let synth = window.speechSynthesis;
+
+        const slideTiming = [10, 15, 10, 12, 18, 12, 12, 18, 13];
+
+        const voiceScripts = [
+            "Aetra. Your invoices. Seconds. Not hours.",
+            "Stop wasting time on manual invoicing. Stacks of paperwork. Manual typing for hours. Errors costing money. And no end in sight.",
+            "What if your invoices were processed instantly?",
+            "Meet Aetra. The AI that understands Indian freight invoices. Upload anything. AI works. Done.",
+            "This is what makes us different. Smart OCR that reads any invoice format. Auto GST calculation built for India. Vendor matching to prevent duplicates. And real-time analytics to spot savings.",
+            "Here's how it works. Upload your invoice. AI extracts all the data instantly. Done. That's it.",
+            "The real numbers. 60 percent faster processing. 94 percent fewer errors. 3 month payback period.",
+            "Reliance Logistics processes 500 invoices every month. They saved 15 hours per week. 3 lakh rupees annually. They said: We went from who's handling invoices today to automated peace of mind.",
+            "Stop wasting time. Start your free trial today. No credit card. No commitment. Visit freightflow dot in."
+        ];
+
+        const totalSlides = document.querySelectorAll('.slide').length;
+        document.getElementById('total-slides').textContent = totalSlides;
+
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.slide');
+            if (n >= totalSlides) currentSlide = totalSlides - 1;
+            if (n < 0) currentSlide = 0;
+
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[currentSlide].classList.add('active');
+
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+
+            document.getElementById('prev-btn').disabled = currentSlide === 0;
+            document.getElementById('next-btn').disabled = currentSlide === totalSlides - 1;
+
+            if (voiceoverEnabled) playVoiceover(currentSlide);
+        }
+
+        function nextSlide() { currentSlide++; showSlide(currentSlide); }
+        function previousSlide() { currentSlide--; showSlide(currentSlide); }
+
+        function toggleVoiceover() {
+            voiceoverEnabled = !voiceoverEnabled;
+            const btn = document.getElementById('voiceover-btn');
+            if (voiceoverEnabled) {
+                btn.textContent = '🔊 ON';
+                btn.classList.add('active');
+                playVoiceover(currentSlide);
+            } else {
+                btn.textContent = '🔊 OFF';
+                btn.classList.remove('active');
+                synth.cancel();
+            }
+        }
+
+        function playVoiceover(idx) {
+            synth.cancel();
+            const utterance = new SpeechSynthesisUtterance(voiceScripts[idx]);
+            utterance.lang = 'en-IN';
+            utterance.rate = 1;
+            synth.speak(utterance);
+        }
+
+        function toggleAutoPlay() {
+            isAutoPlaying = !isAutoPlaying;
+            const btn = document.getElementById('play-btn');
+            if (isAutoPlaying) {
+                btn.textContent = '⏸ Playing';
+                currentSlide = 0;
+                showSlide(0);
+                autoPlay();
+            } else {
+                btn.textContent = '▶ Play';
+                synth.cancel();
+            }
+        }
+
+        function autoPlay() {
+            let idx = 0;
+            function next() {
+                if (idx < totalSlides) {
+                    currentSlide = idx;
+                    showSlide(currentSlide);
+                    idx++;
+                    setTimeout(next, slideTiming[idx - 1] * 1000);
+                } else {
+                    isAutoPlaying = false;
+                    document.getElementById('play-btn').textContent = '▶ Play';
+                }
+            }
+            next();
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') previousSlide();
+            if (e.key === ' ') { e.preventDefault(); toggleAutoPlay(); }
+        });
+
+        showSlide(0);
+    </script>
+</body>
+</html>

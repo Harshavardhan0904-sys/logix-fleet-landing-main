@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aetra Enterprise Dashboard</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .header {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header h1 {
+      color: #667eea;
+      font-size: 28px;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background: #667eea;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #5568d3;
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: #f0f0f0;
+      color: #333;
+    }
+
+    .btn-secondary:hover {
+      background: #e0e0e0;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 25px;
+      margin-bottom: 30px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 10px;
+      padding: 25px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #667eea;
+      padding-bottom: 10px;
+    }
+
+    .metric {
+      display: flex;
+      justify-content: space-between;
+      margin: 12px 0;
+      padding: 10px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .metric-label {
+      color: #666;
+      font-weight: 500;
+    }
+
+    .metric-value {
+      color: #333;
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .metric-value.positive {
+      color: #27ae60;
+    }
+
+    .metric-value.negative {
+      color: #e74c3c;
+    }
+
+    .section {
+      margin-bottom: 30px;
+    }
+
+    .section-title {
+      font-size: 24px;
+      font-weight: 600;
+      color: white;
+      margin-bottom: 20px;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 15px 20px;
+      border-radius: 5px;
+    }
+
+    .tab-container {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .tab-header {
+      display: flex;
+      background: #f5f5f5;
+      border-bottom: 2px solid #e0e0e0;
+    }
+
+    .tab {
+      padding: 15px 20px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-size: 14px;
+      font-weight: 600;
+      color: #666;
+      transition: all 0.3s ease;
+    }
+
+    .tab.active {
+      color: #667eea;
+      border-bottom: 3px solid #667eea;
+      background: white;
+    }
+
+    .tab:hover {
+      color: #667eea;
+    }
+
+    .tab-content {
+      padding: 25px;
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .alert {
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border-left: 4px solid;
+    }
+
+    .alert-success {
+      background: #d4edda;
+      border-color: #28a745;
+      color: #155724;
+    }
+
+    .alert-warning {
+      background: #fff3cd;
+      border-color: #ffc107;
+      color: #856404;
+    }
+
+    .alert-danger {
+      background: #f8d7da;
+      border-color: #dc3545;
+      color: #721c24;
+    }
+
+    .alert-info {
+      background: #d1ecf1;
+      border-color: #17a2b8;
+      color: #0c5460;
+    }
+
+    .progress-bar {
+      background: #f0f0f0;
+      border-radius: 10px;
+      height: 8px;
+      margin: 10px 0;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+      height: 100%;
+      transition: width 0.3s ease;
+    }
+
+    .workflow-state {
+      display: flex;
+      align-items: center;
+      margin: 15px 0;
+      padding: 10px;
+      background: #f9f9f9;
+      border-radius: 5px;
+    }
+
+    .state-badge {
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-right: 10px;
+    }
+
+    .state-badge.active {
+      background: #667eea;
+      color: white;
+    }
+
+    .state-badge.pending {
+      background: #ffc107;
+      color: #333;
+    }
+
+    .state-badge.completed {
+      background: #28a745;
+      color: white;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      color: #333;
+      font-weight: 600;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .kpi-value {
+      font-size: 32px;
+      font-weight: 700;
+      color: #667eea;
+      margin: 20px 0;
+    }
+
+    .trend {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 3px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .trend.up {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .trend.down {
+      background: #f8d7da;
+      color: #721c24;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 20px;
+      color: #666;
+    }
+
+    .spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #667eea;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 10px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .chart-container {
+      margin: 20px 0;
+      padding: 15px;
+      background: #f9f9f9;
+      border-radius: 5px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 500px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .modal-close {
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      color: #999;
+    }
+
+    .modal-close:hover {
+      color: #333;
+    }
+
+    .footer {
+      text-align: center;
+      color: white;
+      padding: 20px;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div>
+        <h1>🚀 Aetra Enterprise Dashboard</h1>
+        <p style="color: #666; margin-top: 5px;">Real-time Business Intelligence & Logistics Management</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-secondary" onclick="loadDashboard()">🔄 Refresh</button>
+        <button class="btn btn-primary" onclick="openModal('new-shipment')">➕ New Shipment</button>
+      </div>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="section">
+      <div class="section-title">📊 Key Performance Indicators</div>
+      <div class="grid">
+        <div class="card">
+          <div class="card-title">Total Revenue</div>
+          <div class="kpi-value">₹24,50,000</div>
+          <div class="metric">
+            <span class="metric-label">This Month</span>
+            <span class="metric-value positive">↑ 12.5%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 75%;"></div>
+          </div>
+          <p style="color: #666; font-size: 12px; margin-top: 10px;">Target: ₹32,50,000</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Shipments Delivered</div>
+          <div class="kpi-value">8,432</div>
+          <div class="metric">
+            <span class="metric-label">On-Time Rate</span>
+            <span class="metric-value positive">98.5%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 98.5%;"></div>
+          </div>
+          <p style="color: #666; font-size: 12px; margin-top: 10px;">↑ 15 from yesterday</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Fleet Utilization</div>
+          <div class="kpi-value">87.3%</div>
+          <div class="metric">
+            <span class="metric-label">Active Vehicles</span>
+            <span class="metric-value">156 / 178</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 87.3%;"></div>
+          </div>
+          <p style="color: #666; font-size: 12px; margin-top: 10px;">Optimal: 80-90%</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Average Cost per Shipment</div>
+          <div class="kpi-value">₹2,904</div>
+          <div class="metric">
+            <span class="metric-label">vs. Industry Avg</span>
+            <span class="metric-value positive">8% Lower ↓</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 65%;"></div>
+          </div>
+          <p style="color: #666; font-size: 12px; margin-top: 10px;">Industry Avg: ₹3,150</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Compliance Score</div>
+          <div class="kpi-value">96.2%</div>
+          <div class="metric">
+            <span class="metric-label">All Checks Passed</span>
+            <span class="metric-value positive">✓ 12/12</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 96.2%;"></div>
+          </div>
+          <p style="color: #666; font-size: 12px; margin-top: 10px;">No critical issues</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Carbon Footprint</div>
+          <div class="kpi-value">2,341 kg</div>
+          <div class="metric">
+            <span class="metric-label">CO₂ This Month</span>
+            <span class="metric-value positive">↓ 5% Reduced</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 45%;"></div>
+          </div>
+          <p style="color: #666; font-size: 12px; margin-top: 10px;">Target: 2,000 kg</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab Navigation -->
+    <div class="section">
+      <div class="tab-container">
+        <div class="tab-header">
+          <button class="tab active" onclick="switchTab(event, 'client-dashboard')">📱 Client Dashboard</button>
+          <button class="tab" onclick="switchTab(event, 'capacity')">📦 Capacity Management</button>
+          <button class="tab" onclick="switchTab(event, 'cost-analytics')">💰 Cost Analytics</button>
+          <button class="tab" onclick="switchTab(event, 'compliance')">✅ Compliance</button>
+          <button class="tab" onclick="switchTab(event, 'workflows')">🔄 Workflows</button>
+          <button class="tab" onclick="switchTab(event, 'multi-modal')">🚛 Multi-Modal Routes</button>
+        </div>
+
+        <!-- CLIENT DASHBOARD TAB -->
+        <div id="client-dashboard" class="tab-content active">
+          <h3>Client Performance Dashboard</h3>
+          <div class="grid" style="grid-template-columns: 1fr 1fr;">
+            <div class="card">
+              <div class="card-title">Client: Reliance Industries</div>
+              <div class="metric">
+                <span class="metric-label">Total Shipments</span>
+                <span class="metric-value">1,247</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">Revenue Generated</span>
+                <span class="metric-value">₹15,60,000</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">Profit Margin</span>
+                <span class="metric-value positive">18.5%</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">Average Delivery Time</span>
+                <span class="metric-value">24 hours</span>
+              </div>
+              <button class="btn btn-primary" style="width: 100%; margin-top: 15px;" onclick="viewClientDetails('reliance')">View Full Dashboard</button>
+            </div>
+
+            <div class="card">
+              <div class="card-title">Client: Hindalco Industries</div>
+              <div class="metric">
+                <span class="metric-label">Total Shipments</span>
+                <span class="metric-value">892</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">Revenue Generated</span>
+                <span class="metric-value">₹11,20,000</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">Profit Margin</span>
+                <span class="metric-value positive">16.2%</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">Average Delivery Time</span>
+                <span class="metric-value">32 hours</span>
+              </div>
+              <button class="btn btn-primary" style="width: 100%; margin-top: 15px;" onclick="viewClientDetails('hindalco')">View Full Dashboard</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CAPACITY MANAGEMENT TAB -->
+        <div id="capacity" class="tab-content">
+          <h3>Fleet Capacity Analysis</h3>
+          <div class="grid" style="grid-template-columns: 1fr 1fr;">
+            <div class="card">
+              <div class="card-title">Vehicle: TN 05 AB 1234</div>
+              <div class="metric">
+                <span class="metric-label">Vehicle Type</span>
+                <span class="metric-value">HCV (40 Ton)</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">Total Capacity</span>
+                <span class="metric-value">40,000 kg</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">Current Load</span>
+                <span class="metric-value">34,500 kg</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">Utilization</span>
+                <span class="metric-value positive">86.25% ✓</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 86.25%;"></div>
+              </div>
+              <button class="btn btn-primary" style="width: 100%; margin-top: 15px;" onclick="optimizeCapacity()">Get Optimization Tips</button>
+            </div>
+
+            <div class="card">
+              <div class="card-title">Fleet Summary</div>
+              <div class="metric">
+                <span class="metric-label">Total Vehicles</span>
+                <span class="metric-value">178</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">Fully Utilized</span>
+                <span class="metric-value positive">154 (86.5%)</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">Under-Utilized</span>
+                <span class="metric-value negative">18 (10.1%)</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">Consolidation Opportunities</span>
+                <span class="metric-value">6 Shipments</span>
+              </div>
+              <div class="alert alert-info" style="margin-top: 15px;">
+                💡 Consolidate 6 shipments to save ₹8,500 monthly
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- COST ANALYTICS TAB -->
+        <div id="cost-analytics" class="tab-content">
+          <h3>Cost Breakdown & Analysis</h3>
+          <div class="grid" style="grid-template-columns: 1fr;">
+            <div class="card">
+              <div class="card-title">Recent Shipment Analysis - SHP-001247</div>
+              <div class="metric">
+                <span class="metric-label">Base Cost</span>
+                <span class="metric-value">₹2,000</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">Fuel Cost</span>
+                <span class="metric-value">₹850</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">Tolls & Permits</span>
+                <span class="metric-value">₹350</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">Labor & Overhead</span>
+                <span class="metric-value">₹450</span>
+              </div>
+              <hr style="margin: 15px 0; border: 1px solid #e0e0e0;">
+              <div class="metric">
+                <span class="metric-label" style="font-weight: 700;">Total Cost</span>
+                <span class="metric-value">₹3,650</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">Revenue</span>
+                <span class="metric-value positive">₹4,500</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">Profit Margin</span>
+                <span class="metric-value positive">18.9% ↑</span>
+              </div>
+              <div class="alert alert-success" style="margin-top: 15px;">
+                ✓ 8% better than industry average
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- COMPLIANCE TAB -->
+        <div id="compliance" class="tab-content">
+          <h3>Compliance & Documentation</h3>
+          <div class="grid" style="grid-template-columns: 1fr 1fr;">
+            <div class="card">
+              <div class="card-title">Shipment Compliance - SHP-001247</div>
+              <div style="margin: 15px 0;">
+                <div style="display: flex; align-items: center; margin: 10px 0;">
+                  <span style="color: #28a745; font-size: 20px; margin-right: 10px;">✓</span>
+                  <span>Documentation Complete</span>
+                </div>
+                <div style="display: flex; align-items: center; margin: 10px 0;">
+                  <span style="color: #28a745; font-size: 20px; margin-right: 10px;">✓</span>
+                  <span>License Valid (Exp: 2027)</span>
+                </div>
+                <div style="display: flex; align-items: center; margin: 10px 0;">
+                  <span style="color: #28a745; font-size: 20px; margin-right: 10px;">✓</span>
+                  <span>Insurance Valid (Exp: 2026)</span>
+                </div>
+                <div style="display: flex; align-items: center; margin: 10px 0;">
+                  <span style="color: #28a745; font-size: 20px; margin-right: 10px;">✓</span>
+                  <span>Vehicle Inspection OK</span>
+                </div>
+                <div style="display: flex; align-items: center; margin: 10px 0;">
+                  <span style="color: #28a745; font-size: 20px; margin-right: 10px;">✓</span>
+                  <span>GST Compliance</span>
+                </div>
+              </div>
+              <div class="alert alert-success" style="margin-top: 15px;">
+                Compliance Score: 96.2% ✓
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-title">Document Status</div>
+              <div class="workflow-state">
+                <span class="state-badge completed">✓ Invoice</span>
+                <span style="color: #666;">Verified on 11 May</span>
+              </div>
+              <div class="workflow-state">
+                <span class="state-badge completed">✓ Bill of Lading</span>
+                <span style="color: #666;">Verified on 11 May</span>
+              </div>
+              <div class="workflow-state">
+                <span class="state-badge completed">✓ Proof of Delivery</span>
+                <span style="color: #666;">Pending from driver</span>
+              </div>
+              <div class="workflow-state">
+                <span class="state-badge pending">⏳ Insurance Certificate</span>
+                <span style="color: #666;">Requested</span>
+              </div>
+              <button class="btn btn-secondary" style="width: 100%; margin-top: 15px;" onclick="uploadDoc()">📄 Upload Document</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- WORKFLOWS TAB -->
+        <div id="workflows" class="tab-content">
+          <h3>Shipment Workflow & Approvals</h3>
+          <div class="card">
+            <div class="card-title">Shipment: SHP-001247</div>
+            <div style="margin: 20px 0;">
+              <h4 style="margin-bottom: 15px;">Current State: <span class="state-badge active">IN-TRANSIT</span></h4>
+              
+              <div class="workflow-state">
+                <span style="color: #28a745; font-size: 18px; margin-right: 10px;">✓</span>
+                <div>
+                  <strong>Created</strong><br>
+                  <span style="font-size: 12px; color: #999;">May 10, 10:30 AM by Admin</span>
+                </div>
+              </div>
+
+              <div class="workflow-state">
+                <span style="color: #28a745; font-size: 18px; margin-right: 10px;">✓</span>
+                <div>
+                  <strong>Approved</strong><br>
+                  <span style="font-size: 12px; color: #999;">May 10, 11:15 AM by Manager</span>
+                </div>
+              </div>
+
+              <div class="workflow-state">
+                <span style="color: #28a745; font-size: 18px; margin-right: 10px;">✓</span>
+                <div>
+                  <strong>Picked & Packed</strong><br>
+                  <span style="font-size: 12px; color: #999;">May 10, 2:45 PM by Warehouse</span>
+                </div>
+              </div>
+
+              <div class="workflow-state">
+                <span style="color: #28a745; font-size: 18px; margin-right: 10px;">✓</span>
+                <div>
+                  <strong>Dispatched</strong><br>
+                  <span style="font-size: 12px; color: #999;">May 11, 8:00 AM by Driver (TN05AB1234)</span>
+                </div>
+              </div>
+
+              <div class="workflow-state">
+                <span style="color: #667eea; font-size: 18px; margin-right: 10px;">◐</span>
+                <div>
+                  <strong>In-Transit</strong><br>
+                  <span style="font-size: 12px; color: #999;">Started 08:00 AM, ETA: May 12, 2:00 PM</span>
+                </div>
+              </div>
+
+              <div class="workflow-state">
+                <span style="color: #ccc; font-size: 18px; margin-right: 10px;">○</span>
+                <div>
+                  <strong>Out for Delivery</strong><br>
+                  <span style="font-size: 12px; color: #999;">Pending - Expected May 12</span>
+                </div>
+              </div>
+
+              <div class="workflow-state">
+                <span style="color: #ccc; font-size: 18px; margin-right: 10px;">○</span>
+                <div>
+                  <strong>Delivered</strong><br>
+                  <span style="font-size: 12px; color: #999;">Pending</span>
+                </div>
+              </div>
+            </div>
+
+            <hr style="margin: 20px 0; border: 1px solid #e0e0e0;">
+
+            <h4 style="margin-bottom: 15px;">Pending Approvals</h4>
+            <div class="workflow-state">
+              <span class="state-badge pending">⏳ Level 1</span>
+              <div style="flex: 1;">
+                <span>Regional Manager</span><br>
+                <span style="font-size: 12px; color: #999;">Awaiting approval by Ganesh Kumar</span>
+              </div>
+              <button class="btn btn-primary" style="width: 100px;">Approve</button>
+            </div>
+
+            <button class="btn btn-primary" style="width: 100%; margin-top: 15px;" onclick="transitionState()">Move to Next State</button>
+          </div>
+        </div>
+
+        <!-- MULTI-MODAL ROUTES TAB -->
+        <div id="multi-modal" class="tab-content">
+          <h3>Multi-Modal Route Optimization</h3>
+          <div class="grid" style="grid-template-columns: 1fr;">
+            <div class="card">
+              <div class="card-title">Route: Mumbai → Delhi</div>
+              <div class="metric">
+                <span class="metric-label">Origin</span>
+                <span class="metric-value">Mumbai, Maharashtra</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">Destination</span>
+                <span class="metric-value">Delhi, Delhi</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">Total Distance</span>
+                <span class="metric-value">1,400 km</span>
+              </div>
+              <hr style="margin: 15px 0; border: 1px solid #e0e0e0;">
+              
+              <h4 style="margin: 15px 0;">Route Segments</h4>
+              
+              <div style="border-left: 3px solid #667eea; padding-left: 15px; margin-bottom: 15px;">
+                <strong style="color: #667eea;">Segment 1: Road (Mumbai → Pune)</strong><br>
+                <span style="font-size: 12px; color: #999;">
+                  Distance: 200 km | Duration: 4 hours | Cost: ₹4,500 | Provider: FedEx India
+                </span>
+              </div>
+
+              <div style="border-left: 3px solid #764ba2; padding-left: 15px; margin-bottom: 15px;">
+                <strong style="color: #764ba2;">Segment 2: Rail (Pune → Nagpur)</strong><br>
+                <span style="font-size: 12px; color: #999;">
+                  Distance: 800 km | Duration: 12 hours | Cost: ₹8,000 | Provider: Indian Railways
+                </span>
+              </div>
+
+              <div style="border-left: 3px solid #667eea; padding-left: 15px; margin-bottom: 15px;">
+                <strong style="color: #667eea;">Segment 3: Road (Nagpur → Delhi)</strong><br>
+                <span style="font-size: 12px; color: #999;">
+                  Distance: 400 km | Duration: 8 hours | Cost: ₹6,000 | Provider: Local Carrier
+                </span>
+              </div>
+
+              <hr style="margin: 15px 0; border: 1px solid #e0e0e0;">
+
+              <div class="metric">
+                <span class="metric-label">Total Cost</span>
+                <span class="metric-value">₹18,500</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">Total Duration</span>
+                <span class="metric-value">24 hours</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">Carbon Footprint</span>
+                <span class="metric-value">12 kg CO₂</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">Cost Optimization</span>
+                <span class="metric-value positive">Save ₹3,500 (16%)</span>
+              </div>
+
+              <div class="alert alert-success" style="margin-top: 15px;">
+                This multi-modal route is 16% cheaper than direct road route while reducing carbon footprint by 35%!
+              </div>
+
+              <button class="btn btn-primary" style="width: 100%; margin-top: 15px;" onclick="confirmRoute()">Confirm Route</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Alerts Section -->
+    <div class="section">
+      <div class="section-title">⚠️ Active Alerts & Notifications</div>
+      <div class="alert alert-warning">
+        🔴 <strong>High Priority:</strong> Vehicle TN05AB2945 requires maintenance. Last service: 45 days ago. Schedule now.
+      </div>
+      <div class="alert alert-info">
+        ℹ️ <strong>Info:</strong> 3 shipments delivered in the last 2 hours. Keep up the great work!
+      </div>
+      <div class="alert alert-success">
+        ✓ <strong>Success:</strong> Daily reconciliation completed. All documents verified.
+      </div>
+      <div class="alert alert-warning">
+        📦 <strong>Action Required:</strong> Shipment SHP-001200 awaiting recipient signature. Contact customer.
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p>Aetra Enterprise Platform | Real-time Logistics Management System</p>
+      <p style="font-size: 12px; margin-top: 10px;">Last updated: 11 May 2026 | 15:45 IST</p>
+    </div>
+  </div>
+
+  <!-- Modal for New Shipment -->
+  <div id="new-shipment" class="modal">
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeModal('new-shipment')">&times;</span>
+      <h2>Create New Shipment</h2>
+      <form onsubmit="createShipment(event)">
+        <div class="form-group">
+          <label>Client Name</label>
+          <input type="text" placeholder="Enter client name" required>
+        </div>
+        <div class="form-group">
+          <label>Origin</label>
+          <input type="text" placeholder="Enter origin city" required>
+        </div>
+        <div class="form-group">
+          <label>Destination</label>
+          <input type="text" placeholder="Enter destination city" required>
+        </div>
+        <div class="form-group">
+          <label>Shipment Weight (kg)</label>
+          <input type="number" placeholder="Enter weight" required>
+        </div>
+        <div class="form-group">
+          <label>Mode of Transport</label>
+          <select required>
+            <option>Road</option>
+            <option>Rail</option>
+            <option>Air</option>
+            <option>Sea</option>
+            <option>Multi-Modal</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Create Shipment</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = 'https://freightflow-pkf5.onrender.com/api';
+
+    function switchTab(event, tabName) {
+      event.preventDefault();
+      
+      // Hide all tab contents
+      const contents = document.querySelectorAll('.tab-content');
+      contents.forEach(content => content.classList.remove('active'));
+      
+      // Remove active class from all tabs
+      const tabs = document.querySelectorAll('.tab');
+      tabs.forEach(tab => tab.classList.remove('active'));
+      
+      // Show selected tab content
+      document.getElementById(tabName).classList.add('active');
+      
+      // Add active class to clicked tab
+      event.target.classList.add('active');
+    }
+
+    function openModal(modalId) {
+      document.getElementById(modalId).classList.add('active');
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.remove('active');
+    }
+
+    function createShipment(event) {
+      event.preventDefault();
+      alert('✓ Shipment created successfully!\nShipment ID: SHP-001248');
+      closeModal('new-shipment');
+    }
+
+    function loadDashboard() {
+      alert('🔄 Dashboard refreshed!');
+    }
+
+    function viewClientDetails(clientId) {
+      alert(`📊 Loading full dashboard for ${clientId}...`);
+    }
+
+    function optimizeCapacity() {
+      alert('💡 Optimization suggestions:\n- Consolidate with nearby shipments\n- Use Rail for long distances\n- Potential savings: ₹8,500/month');
+    }
+
+    function uploadDoc() {
+      alert('📄 Opening document upload...');
+    }
+
+    function transitionState() {
+      alert('✓ Shipment transitioned to: OUT-FOR-DELIVERY');
+    }
+
+    function confirmRoute() {
+      alert('✓ Route confirmed and optimized!\nEstimated saving: ₹3,500');
+    }
+
+    // Auto-refresh every 5 minutes
+    setInterval(() => {
+      console.log('Auto-refreshing dashboard...');
+    }, 300000);
+
+    console.log('🚀 Aetra Enterprise Dashboard loaded successfully!');
+  </script>
+</body>
+</html>

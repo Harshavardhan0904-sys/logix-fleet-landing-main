@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aetra Analytics | Year-over-Year Savings Report</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1a1f3a 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(120deg, #60a5fa, #34d399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            color: #94a3b8;
+            margin-bottom: 30px;
+        }
+
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: rgba(30, 41, 59, 0.9);
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            padding: 30px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .card:hover {
+            border-color: rgba(96, 165, 250, 0.6);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(96, 165, 250, 0.1);
+        }
+
+        .card-label {
+            font-size: 0.85em;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .card-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #60a5fa;
+            margin-bottom: 5px;
+        }
+
+        .card-detail {
+            font-size: 0.9em;
+            color: #64748b;
+        }
+
+        .card.success .card-value {
+            color: #34d399;
+        }
+
+        .card.warning .card-value {
+            color: #fbbf24;
+        }
+
+        .card.critical .card-value {
+            color: #f87171;
+        }
+
+        .chart-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .chart-wrapper {
+            background: rgba(30, 41, 59, 0.9);
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            padding: 25px;
+            border-radius: 12px;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        .chart-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #f1f5f9;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .metric-tile {
+            background: rgba(30, 41, 59, 0.9);
+            border: 1px solid rgba(100, 116, 139, 0.3);
+            border-left: 4px solid #60a5fa;
+            padding: 20px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .metric-tile:hover {
+            border-color: rgba(96, 165, 250, 0.6);
+            background: rgba(30, 41, 59, 1);
+        }
+
+        .metric-label {
+            font-size: 0.85em;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+
+        .metric-current {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #60a5fa;
+            margin-bottom: 5px;
+        }
+
+        .metric-comparison {
+            font-size: 0.9em;
+            color: #64748b;
+        }
+
+        .metric-change.positive {
+            color: #34d399;
+        }
+
+        .metric-change.negative {
+            color: #f87171;
+        }
+
+        .breakdown-section {
+            background: rgba(30, 41, 59, 0.9);
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #f1f5f9;
+        }
+
+        .breakdown-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(100, 116, 139, 0.1);
+        }
+
+        .breakdown-row:last-child {
+            border-bottom: none;
+        }
+
+        .breakdown-label {
+            font-size: 1em;
+            color: #cbd5e1;
+        }
+
+        .breakdown-value {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #34d399;
+        }
+
+        .bar {
+            height: 20px;
+            background: linear-gradient(90deg, #60a5fa, #34d399);
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #60a5fa;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #93c5fd;
+        }
+
+        .footer {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(96, 165, 250, 0.2);
+            color: #64748b;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .chart-container {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-link">← Back to Aetra</a>
+
+        <header>
+            <h1>📊 Aetra Analytics</h1>
+            <p class="subtitle">Year-over-Year Performance Report (2025 vs 2026)</p>
+        </header>
+
+        <div class="summary-cards">
+            <div class="card success">
+                <div class="card-label">Total Savings Generated</div>
+                <div class="card-value" id="totalSavings">₹28.5L</div>
+                <div class="card-detail">+18.5% improvement</div>
+            </div>
+            <div class="card success">
+                <div class="card-label">On-Time Delivery</div>
+                <div class="card-value" id="otdMetric">94.2%</div>
+                <div class="card-detail">+6.7% vs last year</div>
+            </div>
+            <div class="card success">
+                <div class="card-label">Capacity Utilization</div>
+                <div class="card-value" id="utilizationMetric">72.3%</div>
+                <div class="card-detail">+7.5% efficiency gain</div>
+            </div>
+            <div class="card success">
+                <div class="card-label">Cost Per KM</div>
+                <div class="card-value" id="costPerKm">₹28.5</div>
+                <div class="card-detail">-16.8% reduction</div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-wrapper">
+                <div class="chart-title">Monthly Savings Trend (2025-2026)</div>
+                <canvas id="savingsChart"></canvas>
+            </div>
+            <div class="chart-wrapper">
+                <div class="chart-title">Fleet Efficiency Score by Month</div>
+                <canvas id="efficiencyChart"></canvas>
+            </div>
+        </div>
+
+        <div class="breakdown-section">
+            <div class="section-title">Savings Breakdown by Category</div>
+            
+            <div class="breakdown-row">
+                <div class="breakdown-label">🛣️ Route Optimization</div>
+                <div class="breakdown-value">₹12.0L</div>
+                <div class="bar" style="width: 42%;"></div>
+            </div>
+            
+            <div class="breakdown-row">
+                <div class="breakdown-label">📦 Capacity Utilization</div>
+                <div class="breakdown-value">₹8.2L</div>
+                <div class="bar" style="width: 29%;"></div>
+            </div>
+            
+            <div class="breakdown-row">
+                <div class="breakdown-label">💳 Invoice Reconciliation</div>
+                <div class="breakdown-value">₹4.5L</div>
+                <div class="bar" style="width: 16%;"></div>
+            </div>
+            
+            <div class="breakdown-row">
+                <div class="breakdown-label">🚗 Driver Compliance</div>
+                <div class="breakdown-value">₹3.8L</div>
+                <div class="bar" style="width: 13%;"></div>
+            </div>
+
+            <div class="breakdown-row" style="border-top: 2px solid rgba(96, 165, 250, 0.3); padding-top: 20px;">
+                <div class="breakdown-label" style="font-weight: bold; color: #34d399;">Total Annual Impact</div>
+                <div class="breakdown-value" style="color: #34d399; font-size: 1.3em;">₹28.5 Lakhs</div>
+            </div>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-tile">
+                <div class="metric-label">Fuel Efficiency</div>
+                <div class="metric-current">6.8 km/l</div>
+                <div class="metric-comparison">Previous: 5.9 km/l <span class="metric-change positive">+15.3%</span></div>
+            </div>
+
+            <div class="metric-tile">
+                <div class="metric-label">Customer Retention</div>
+                <div class="metric-current">94.8%</div>
+                <div class="metric-comparison">Previous: 89.2% <span class="metric-change positive">+5.6%</span></div>
+            </div>
+
+            <div class="metric-tile">
+                <div class="metric-label">Average Delivery Time</div>
+                <div class="metric-current">3.2 days</div>
+                <div class="metric-comparison">Previous: 4.1 days <span class="metric-change positive">-22%</span></div>
+            </div>
+
+            <div class="metric-tile">
+                <div class="metric-label">Route Cost Reduction</div>
+                <div class="metric-current">16.8%</div>
+                <div class="metric-comparison">Optimized via AI algorithms</div>
+            </div>
+
+            <div class="metric-tile">
+                <div class="metric-label">Payment Processing</div>
+                <div class="metric-current">24 hours</div>
+                <div class="metric-comparison">Previous: 30+ days <span class="metric-change positive">-20%</span></div>
+            </div>
+
+            <div class="metric-tile">
+                <div class="metric-label">Vehicle Uptime</div>
+                <div class="metric-current">96.5%</div>
+                <div class="metric-comparison">Reduced maintenance downtime</div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-wrapper">
+                <div class="chart-title">YoY Metric Comparison</div>
+                <canvas id="comparisonChart"></canvas>
+            </div>
+        </div>
+
+        <div class="breakdown-section">
+            <div class="section-title">How Aetra Created These Savings</div>
+            
+            <div class="breakdown-row">
+                <div class="breakdown-label">
+                    <strong>Route Optimization (₹12L)</strong><br/>
+                    AI detected suboptimal routing patterns and consolidation opportunities. Implemented daily alerts with 1-click reroute.
+                </div>
+            </div>
+
+            <div class="breakdown-row">
+                <div class="breakdown-label">
+                    <strong>Capacity Utilization (₹8.2L)</strong><br/>
+                    Identified underutilized hubs and generated auto-quotes to fill empty seats. Dynamic pricing alerts.
+                </div>
+            </div>
+
+            <div class="breakdown-row">
+                <div class="breakdown-label">
+                    <strong>Invoice Reconciliation (₹4.5L)</strong><br/>
+                    Auto-synced PODs from WhatsApp to invoices. Reduced payment delays from 30 days to 24 hours.
+                </div>
+            </div>
+
+            <div class="breakdown-row">
+                <div class="breakdown-label">
+                    <strong>Driver Compliance (₹3.8L)</strong><br/>
+                    Proactive certification tracking + email reminders prevented legal penalties.
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>💡 Aetra Analytics — Turn Invoice & Fleet Data into ₹ Savings</p>
+            <p style="font-size: 0.85em; margin-top: 10px;">Generated: May 6, 2026 | Report Period: Jan 2025 - May 2026</p>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * Load analytics data from API
+         */
+        async function loadAnalytics() {
+            try {
+                const response = await fetch('/api/analytics');
+                if (!response.ok) throw new Error('Failed to load analytics');
+                
+                const data = await response.json();
+                if (data.success) {
+                    updateDashboard(data);
+                }
+            } catch (error) {
+                console.error('Error loading analytics:', error);
+                console.warn('Using fallback analytics data');
+            }
+        }
+
+        /**
+         * Update dashboard with analytics data
+         */
+        function updateDashboard(data) {
+            // Update summary cards
+            document.getElementById('totalSavings').textContent = `₹${(data.summary.totalSavings / 100000).toFixed(1)}L`;
+            document.getElementById('otdMetric').textContent = data.keyMetrics.onTimeDelivery.current + '%';
+            document.getElementById('utilizationMetric').textContent = data.keyMetrics.capacityUtilization.current + '%';
+            document.getElementById('costPerKm').textContent = '₹' + data.keyMetrics.costPerKm.current;
+
+            // Create charts with real data
+            createSavingsChart(data.monthlyBreakdown);
+            createEfficiencyChart(data.monthlyBreakdown);
+            createComparisonChart(data.keyMetrics);
+        }
+
+        /**
+         * Monthly Savings Trend Chart
+         */
+        function createSavingsChart(monthlyData) {
+            const ctx = document.getElementById('savingsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: monthlyData.map(m => m.month),
+                    datasets: [{
+                        label: 'Monthly Savings (₹)',
+                        data: monthlyData.map(m => m.savings / 100000), // Convert to lakhs
+                        borderColor: '#34d399',
+                        backgroundColor: 'rgba(52, 211, 153, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 5,
+                        pointBackgroundColor: '#34d399',
+                        pointBorderColor: '#0f172a',
+                        pointBorderWidth: 2,
+                        pointHoverRadius: 7
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            labels: { color: '#cbd5e1', font: { size: 12 } }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { color: '#94a3b8' },
+                            grid: { color: 'rgba(100, 116, 139, 0.1)' }
+                        },
+                        x: {
+                            ticks: { color: '#94a3b8' },
+                            grid: { color: 'rgba(100, 116, 139, 0.1)' }
+                        }
+                    }
+                }
+            });
+        }
+
+        /**
+         * Fleet Efficiency Score Chart
+         */
+        function createEfficiencyChart(monthlyData) {
+            const ctx = document.getElementById('efficiencyChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: monthlyData.map(m => m.month),
+                    datasets: [{
+                        label: 'Fleet Efficiency Score (0-100)',
+                        data: monthlyData.map(m => m.efficiency),
+                        borderColor: '#60a5fa',
+                        backgroundColor: 'rgba(96, 165, 250, 0.15)',
+                        borderWidth: 2,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#60a5fa',
+                        pointBorderColor: '#0f172a',
+                        pointBorderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    scales: {
+                        r: {
+                            min: 75,
+                            max: 100,
+                            ticks: { color: '#94a3b8', stepSize: 5 },
+                            grid: { color: 'rgba(100, 116, 139, 0.1)' }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: { color: '#cbd5e1' }
+                        }
+                    }
+                }
+            });
+        }
+
+        /**
+         * YoY Comparison Chart
+         */
+        function createComparisonChart(metrics) {
+            const ctx = document.getElementById('comparisonChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['On-Time Delivery', 'Capacity Utilization', 'Fuel Efficiency', 'Customer Retention'],
+                    datasets: [
+                        {
+                            label: '2025 (Baseline)',
+                            data: [
+                                metrics.onTimeDelivery.previous,
+                                metrics.capacityUtilization.previous,
+                                5.9, // 2025 fuel efficiency
+                                metrics.customerRetention.previous
+                            ],
+                            backgroundColor: 'rgba(96, 165, 250, 0.3)',
+                            borderColor: '#60a5fa',
+                            borderWidth: 2
+                        },
+                        {
+                            label: '2026 (Current)',
+                            data: [
+                                metrics.onTimeDelivery.current,
+                                metrics.capacityUtilization.current,
+                                metrics.fuelEfficiency.current,
+                                metrics.customerRetention.current
+                            ],
+                            backgroundColor: 'rgba(52, 211, 153, 0.5)',
+                            borderColor: '#34d399',
+                            borderWidth: 2
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            labels: { color: '#cbd5e1', font: { size: 12 } }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { color: '#94a3b8' },
+                            grid: { color: 'rgba(100, 116, 139, 0.1)' }
+                        },
+                        x: {
+                            ticks: { color: '#94a3b8' },
+                            grid: { color: 'rgba(100, 116, 139, 0.1)' }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Load analytics on page load
+        document.addEventListener('DOMContentLoaded', loadAnalytics);
+    </script>
+</body>
+</html>

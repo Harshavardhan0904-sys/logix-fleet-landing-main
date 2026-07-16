@@ -1,0 +1,54 @@
+{
+  "sample_invoice_standard.png": {
+    "variant": "standard",
+    "expected": {
+      "invoice_number": "INV-2026-00145",
+      "vendor_name": "FREIGHTFLOW LOGISTICS",
+      "amount": 54300,
+      "gst_amount": 8100,
+      "hsn_code": "9971",
+      "vehicle_number": "DL-01-AB-1234",
+      "route": "Delhi \u2192 Vadodara",
+      "transport_mode": "FTL"
+    }
+  },
+  "sample_invoice_ltl.png": {
+    "variant": "ltl",
+    "expected": {
+      "invoice_number": "BD-2026-00289",
+      "vendor_name": "BLUE DART EXPRESS",
+      "amount": 34810,
+      "gst_amount": 5310,
+      "hsn_code": "9971",
+      "transport_mode": "LTL"
+    }
+  },
+  "sample_invoice_handwritten.png": {
+    "variant": "handwritten",
+    "expected": {
+      "vendor_name": "ALLCARGO GATI",
+      "amount": 78500,
+      "vehicle_number": "KA-01-AB-5678",
+      "route": "Bangalore -> Chennai",
+      "transport_mode": "Road"
+    }
+  },
+  "sample_invoice_lowquality.png": {
+    "variant": "lowquality",
+    "expected": {
+      "invoice_number": "LOC-2026-0401",
+      "vendor_name": "LOCUS LOGISTICS",
+      "amount": 42100,
+      "hsn_code": "4911"
+    }
+  },
+  "sample_invoice_multiitem.png": {
+    "variant": "multiitem",
+    "expected": {
+      "invoice_number": "FFA-2026-0512",
+      "vendor_name": "FREIGHTFLOW ANALYTICS",
+      "amount": 43318,
+      "gst_amount": 6318
+    }
+  }
+}

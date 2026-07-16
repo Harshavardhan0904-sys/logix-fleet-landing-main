@@ -1,0 +1,299 @@
+{
+  "info": {
+    "name": "FreightFlow Nomadia Features - Real Data Testing",
+    "description": "Complete API test suite for 4 Nomadia features with real database queries",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. GPS Real-Time Tracking",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{valid_token}}",
+            "type": "text",
+            "description": "Replace with actual token from database"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "X-Company-ID",
+            "value": "comp-001",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:5000/api/shipments/tracking?status=in-transit&limit=50",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "shipments", "tracking"],
+          "query": [
+            {
+              "key": "status",
+              "value": "in-transit",
+              "description": "Filter by status: in-transit, out-for-delivery, pending, ready-for-dispatch"
+            },
+            {
+              "key": "limit",
+              "value": "50",
+              "description": "Max results to return"
+            }
+          ]
+        },
+        "description": "Retrieves real shipments from database filtered by status"
+      },
+      "response": {
+        "example": {
+          "success": true,
+          "source": "database",
+          "shipments": [
+            {
+              "shipmentId": "ship-001",
+              "trackingNumber": "FF-2026-001",
+              "status": "in-transit",
+              "priority": "High",
+              "origin": "Mumbai, Maharashtra",
+              "destination": "Delhi, Delhi",
+              "cargoType": "Electronics",
+              "weight": 45.5,
+              "value": 125000,
+              "estimatedDelivery": "2026-04-20T10:30:00Z",
+              "latitude": 19.0760,
+              "longitude": 72.8777,
+              "speed": 65,
+              "progress": 45,
+              "eta": "2 days remaining"
+            }
+          ],
+          "stats": {
+            "totalShipments": 8,
+            "inTransit": 3,
+            "outForDelivery": 1,
+            "pending": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "2. Proof of Delivery - Submit",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{valid_token}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "X-Company-ID",
+            "value": "comp-001",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"shipmentId\": \"ship-003\",\n  \"driverId\": \"driver-003\",\n  \"receiverName\": \"Mr. Raj Kumar\",\n  \"receiverPhone\": \"9876543210\",\n  \"notes\": \"Delivered successfully at gate\",\n  \"paymentMethod\": \"cash\",\n  \"amountCollected\": 0,\n  \"photoUrl\": \"data:image/jpeg;base64,...\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/shipments/pod/submit",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "shipments", "pod", "submit"]
+        },
+        "description": "Submit proof of delivery with recipient info and optional photo"
+      },
+      "response": {
+        "example": {
+          "success": true,
+          "message": "POD submitted successfully",
+          "podId": "pod-0001",
+          "shipmentId": "ship-003",
+          "receivedBy": "Mr. Raj Kumar",
+          "deliveredAt": "2026-04-19T14:30:00Z",
+          "amountCollected": 0
+        }
+      }
+    },
+    {
+      "name": "3. Route Optimization - Calculate",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{valid_token}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "X-Company-ID",
+            "value": "comp-001",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"filters\": {\n    \"status\": [\"pending\", \"ready-for-dispatch\"],\n    \"priority\": \"high\"\n  }\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/routes/optimize",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "routes", "optimize"]
+        },
+        "description": "Optimizes shipments into efficient routes by destination and consolidates cargo"
+      },
+      "response": {
+        "example": {
+          "success": true,
+          "source": "database",
+          "routes": [
+            {
+              "routeId": "route-001",
+              "destination": "Delhi, Delhi",
+              "shipmentCount": 2,
+              "shipmentIds": ["ship-001", "ship-006"],
+              "totalWeight": 50.5,
+              "totalValue": 1625000,
+              "estimatedDistance": 1400,
+              "estimatedTime": "18 hours",
+              "estimatedCost": 7500,
+              "vehicleType": "Truck",
+              "priority": "High\",
+              "consolidation\": \"FTL - Full Truck Load\"
+            },
+            {
+              "routeId": "route-002",
+              "destination": "Hyderabad, Telangana",
+              "shipmentCount": 1,
+              "shipmentIds": ["ship-002"],
+              "totalWeight": 120,
+              "totalValue": 85000,
+              "estimatedDistance": 1100,
+              "estimatedTime": "14 hours",
+              "estimatedCost": 4500,
+              "vehicleType": "Truck",
+              "priority": "Medium",
+              "consolidation": "Available for more shipments\"
+            }
+          ],
+          "summary": {
+            "totalRoutes": 2,
+            "totalShipments": 3,
+            "totalWeight": 170.5,
+            "estimatedCost": 12000,
+            "costSavings": 3500
+          }
+        }
+      }
+    },
+    {
+      "name": "4. Driver Delivery App - Assignments",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{valid_token}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "X-Company-ID",
+            "value": "comp-001",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:5000/api/drivers/assignments",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "drivers", "assignments"]
+        },
+        "description": "Retrieves active driver assignments with shipment details and vehicle/performance data"
+      },
+      "response": {
+        "example": {
+          "success": true,
+          "source": "database",
+          "drivers": [
+            {
+              "driverId": "driver-001",
+              "name": "Rajesh Kumar",
+              "phone": "9876543210",
+              "assignedShipments": 2,
+              "shipmentIds": ["ship-001", "ship-006"],
+              "totalWeight": 50.5,
+              "totalValue": 1625000,
+              "vehicleId": "veh-001",
+              "registration": "MH-02-AB-1234",
+              "vehicleType": "Truck",
+              "capacity": 10000,
+              "capacityUtilization": "0.5%\",
+              "licenseExpiry": "2027-06-15",
+              \"status\": \"active\",
+              \"rating\": 4.8,
+              \"completedDeliveries\": 156,
+              \"damageRate\": \"0.2%\"
+            },
+            {
+              "driverId": "driver-002",
+              "name": "Suresh Patel",
+              "phone": "8765432109",
+              "assignedShipments": 1,
+              "shipmentIds": ["ship-002"],
+              "totalWeight": 120,
+              "totalValue": 85000,
+              "vehicleId": "veh-002",
+              "registration": "KA-05-CD-5678",
+              "vehicleType": "Truck",
+              "capacity": 12000,
+              "capacityUtilization": "1%\",
+              \"licenseExpiry\": \"2026-12-20\",
+              \"status\": \"active\",
+              \"rating\": 4.6,
+              \"completedDeliveries\": 203,
+              \"damageRate\": \"0.1%\"
+            }
+          ],
+          "summary": {
+            "totalDrivers": 4,
+            "activeAssignments": 5,
+            "totalCapacityUtilization": "3.5%",
+            "avgRating": 4.65
+          }
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "valid_token",
+      "value": "",
+      "type": "string",
+      "description": "YOU MUST SET THIS: Get from user record in ff_users collection after test data insert"
+    }
+  ]
+}

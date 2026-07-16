@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aetra — Enterprise Freight Intelligence for Indian Logistics</title>
+  <meta name="description" content="Aetra brings freight intelligence, invoice automation, and logistics visibility to Indian SMEs and enterprises. Save time, reduce errors, and operate smarter.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="lib/leaflet/leaflet.css" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231e3a5f'/><text y='.85em' font-size='65' x='10'>🚛</text></svg>'>  
+  <!-- ═══ ANALYTICS & MONITORING ═══ -->
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PLACEHOLDER"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    
+    // Initialize GA4 if ID is set (via environment variable)
+    const ga4Id = 'G-PLACEHOLDER'; // Will be replaced during build
+    if (ga4Id && ga4Id !== 'G-PLACEHOLDER') {
+      gtag('config', ga4Id, {
+        page_path: window.location.pathname + window.location.hash,
+        page_title: document.title,
+        send_page_view: true
+      });
+      
+      // Track hash-based navigation for SPA
+      window.addEventListener('hashchange', () => {
+        gtag('config', ga4Id, {
+          page_path: window.location.pathname + window.location.hash,
+          page_title: document.title
+        });
+      });
+    }
+  </script>
+  
+  <!-- Sentry Frontend Error Tracking (if enabled) -->
+  <script>
+    // Sentry will be initialized if DSN is configured in environment
+    // Check backend health to enable/disable error tracking
+    if (window.SENTRY_ENABLED) {
+      console.log('Sentry error tracking enabled');
+    }
+  </script></head>
+<body>
+  <!-- Global App Shell -->
+  <div id="app">
+    <!-- Initial Loading Screen -->
+    <div id="initLoader" style="position:fixed;inset:0;background:linear-gradient(135deg,#0f1f33,#1e3a5f);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:32px">
+        <div style="width:56px;height:56px;background:rgba(249,115,22,.15);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:32px;border:1px solid rgba(249,115,22,.3)">🚛</div>
+        <div>
+          <div style="font-size:28px;font-weight:800;color:#fff;letter-spacing:-0.5px">Aetra</div>
+          <div style="font-size:13px;color:rgba(255,255,255,.5);margin-top:2px">Enterprise Freight Intelligence</div>
+        </div>
+      </div>
+      <div style="width:200px;height:3px;background:rgba(255,255,255,.1);border-radius:999px;overflow:hidden;margin-bottom:16px">
+        <div id="loadBar" style="height:100%;background:linear-gradient(90deg,#f97316,#fb923c);border-radius:999px;width:0%;transition:width .3s ease"></div>
+      </div>
+      <div id="loadText" style="font-size:13px;color:rgba(255,255,255,.4)">Initializing...</div>
+    </div>
+  </div>
+
+  <!-- Toast & Modal Containers -->
+  <div class="toast-container" id="toastContainer"></div>
+  <div id="modalContainer"></div>
+
+  <!-- Core Data & Utilities -->
+  <script src="js/data.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/export.js"></script>
+  <script src="js/components.js"></script>
+
+  <!-- Pages -->
+  <script src="js/pages/landing.js"></script>
+  <script src="js/pages/auth.js"></script>
+  <script src="js/pages/dashboard.js"></script>
+  <script src="js/pages/admin.js"></script>
+  <script src="js/pages/invoices.js"></script>
+  <script src="js/pages/gst.js"></script>
+  <script src="js/pages/payments.js"></script>
+  <script src="js/pages/vendors.js"></script>
+  <script src="js/pages/ratecards.js"></script>
+  <script src="js/pages/reports.js"></script>
+  <script src="lib/leaflet/leaflet.js"></script>
+  <script src="js/pages/settings.js"></script>
+  <script src="js/pages/tracking.js"></script>
+  <script src="js/pages/shipments.js"></script>
+  <script src="js/pages/fleet.js"></script>
+  <script src="js/pages/warehouse.js"></script>
+  <script src="js/pages/ocr.js"></script>
+  
+  <!-- Nomadia-Inspired Features (NEW) -->
+  <script src="js/pages/gps-tracking.js"></script>
+  <script src="js/pages/proof-of-delivery.js"></script>
+  <script src="js/pages/route-optimization.js"></script>
+  <script src="js/pages/driver-mobile.js"></script>
+  <script src="js/pages/delivery-analytics.js"></script>
+  <script src="js/pages/territory-management.js"></script>
+
+  <!-- Router & App Bootstrap -->
+  <script src="js/router.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

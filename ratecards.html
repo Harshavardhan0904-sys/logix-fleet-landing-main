@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rate Cards - Aetra</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* Rate Cards Specific Styles */
+        .rate-cards-container {
+            display: grid;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .rate-card-item {
+            background: white;
+            border: 1px solid #e0e7ff;
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .rate-card-item:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-color: #6366f1;
+        }
+
+        .rate-card-item.active {
+            border-left: 4px solid #10b981;
+            background: #f0fdf4;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .card-info h3 {
+            margin: 0 0 5px 0;
+            font-size: 18px;
+            color: #1f2937;
+        }
+
+        .card-info p {
+            margin: 0;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .card-meta {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-green {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .badge-blue {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .badge-gray {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .card-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            padding-top: 15px;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 10px;
+            background: #f9fafb;
+            border-radius: 4px;
+        }
+
+        .stat-value {
+            display: block;
+            font-size: 24px;
+            font-weight: bold;
+            color: #6366f1;
+        }
+
+        .stat-label {
+            display: block;
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 5px;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 25px rgba(0,0,0,0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #6b7280;
+        }
+
+        .modal-close:hover {
+            color: #1f2937;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        /* Slabs Container */
+        .slabs-container {
+            background: #f9fafb;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .slabs-container h3 {
+            margin-top: 0;
+            color: #1f2937;
+        }
+
+        .slab-item {
+            background: white;
+            border-left: 4px solid #6366f1;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .slab-info {
+            flex: 1;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6b7280;
+        }
+
+        .empty-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h3 {
+            margin: 0 0 10px 0;
+            color: #1f2937;
+        }
+
+        .empty-slabs {
+            text-align: center;
+            padding: 30px;
+            color: #6b7280;
+            background: white;
+            border-radius: 4px;
+        }
+
+        /* Button Styles */
+        .btn {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: #6366f1;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #4f46e5;
+        }
+
+        .btn-outline {
+            background: white;
+            color: #6366f1;
+            border: 1px solid #6366f1;
+        }
+
+        .btn-outline:hover {
+            background: #f0f0ff;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+
+        /* Table Styles */
+        .pricing-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .pricing-table thead th {
+            background: #f3f4f6;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #1f2937;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .pricing-table tbody td {
+            padding: 12px;
+            border-bottom: 1px solid #e5e7eb;
+            color: #6b7280;
+        }
+
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 16px 24px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            transform: translateY(400px);
+            transition: transform 0.3s ease;
+            z-index: 2000;
+            max-width: 300px;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+        }
+
+        .toast-success {
+            background: #10b981;
+        }
+
+        .toast-error {
+            background: #ef4444;
+        }
+
+        .toast-info {
+            background: #3b82f6;
+        }
+
+        /* Header Section */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 0 20px;
+        }
+
+        .page-header h1 {
+            margin: 0;
+            font-size: 32px;
+            color: #1f2937;
+        }
+
+        .page-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .card-header {
+                flex-direction: column;
+            }
+
+            .card-actions {
+                margin-top: 15px;
+                width: 100%;
+            }
+
+            .card-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                max-width: 90%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar (Included from main app) -->
+    <div id="sidebar"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <div class="page-header">
+            <div>
+                <h1>💰 Rate Cards</h1>
+                <p style="color: #6b7280; margin: 5px 0 0 0;">Manage vendor pricing and volume-based rates</p>
+            </div>
+            <div class="page-controls">
+                <button id="createRateCardBtn" class="btn btn-primary">+ Create Rate Card</button>
+            </div>
+        </div>
+
+        <!-- Rate Cards List -->
+        <div class="rate-cards-container">
+            <div id="rateCardsList">
+                <div class="empty-state">
+                    <div class="empty-icon">⏳</div>
+                    <h3>Loading Rate Cards...</h3>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- CREATE MODAL -->
+    <div id="createRateCardModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create Rate Card</h2>
+                <button class="modal-close" data-modal-close>×</button>
+            </div>
+
+            <form id="createRateCardForm">
+                <div class="form-group">
+                    <label for="cardName">Card Name *</label>
+                    <input type="text" id="cardName" required 
+                           placeholder="e.g., Mumbai-Delhi Route Card">
+                </div>
+
+                <div class="form-group">
+                    <label for="cardDescription">Description</label>
+                    <textarea id="cardDescription" 
+                              placeholder="Add details about this rate card"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="cardIsDefault">
+                        <label for="cardIsDefault">Set as default rate card</label>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 30px;">
+                    <button type="button" class="btn btn-secondary" data-modal-close>Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Card</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- EDIT MODAL -->
+    <div id="editRateCardModal" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="modal-header">
+                <h2>Edit Rate Card</h2>
+                <button class="modal-close" data-modal-close>×</button>
+            </div>
+
+            <form id="editRateCardForm">
+                <input type="hidden" id="editCardId">
+
+                <div class="form-group">
+                    <label for="editCardName">Card Name *</label>
+                    <input type="text" id="editCardName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="editCardDescription">Description</label>
+                    <textarea id="editCardDescription"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="editCardStatus">Status</label>
+                    <select id="editCardStatus">
+                        <option value="draft">Draft</option>
+                        <option value="active">Active</option>
+                        <option value="archived">Archived</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="editCardIsDefault">
+                        <label for="editCardIsDefault">Set as default rate card</label>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 10px; justify-content: flex-end; margin-bottom: 20px;">
+                    <button type="submit" class="btn btn-primary">Update Card</button>
+                </div>
+            </form>
+
+            <!-- Slabs Section -->
+            <div class="slabs-container">
+                <h3>Pricing Slabs</h3>
+                <div id="slabsContainer"></div>
+
+                <h4 style="margin-top: 30px; margin-bottom: 15px;">Add New Slab</h4>
+                <form id="addSlabForm">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <div class="form-group" style="margin-bottom: 10px;">
+                            <label for="slabRoute">Route</label>
+                            <input type="text" id="slabRoute" placeholder="e.g., Mumbai-Delhi">
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 10px;">
+                            <label for="slabMode">Mode *</label>
+                            <select id="slabMode" required>
+                                <option value="">Select Mode</option>
+                                <option value="ftl">Full Truck Load (FTL)</option>
+                                <option value="ltl">Less Than Truck Load (LTL)</option>
+                                <option value="air">Air Cargo</option>
+                                <option value="rail">Rail</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 10px;">
+                            <label for="slabMinWeight">Min Weight (units) *</label>
+                            <input type="number" id="slabMinWeight" required placeholder="0">
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 10px;">
+                            <label for="slabMaxWeight">Max Weight (units) *</label>
+                            <input type="number" id="slabMaxWeight" required placeholder="1000">
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 10px; grid-column: 1 / -1;">
+                            <label for="slabRate">Rate (₹/unit) *</label>
+                            <input type="number" id="slabRate" step="0.01" required placeholder="0.00">
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 10px; justify-content: space-between;">
+                        <label style="cursor: pointer; font-weight: 600; color: #6366f1;">
+                            📤 <input type="file" id="csvFileInput" accept=".csv" style="display: none;">
+                            Import from CSV
+                        </label>
+                        <button type="submit" class="btn btn-primary">Add Slab</button>
+                    </div>
+                </form>
+            </div>
+
+            <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+                <button type="button" class="btn btn-secondary" data-modal-close>Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DETAIL MODAL -->
+    <div id="detailModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h2>Rate Card Details</h2>
+                <button class="modal-close" data-modal-close>×</button>
+            </div>
+            <div id="detailContent"></div>
+            <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
+                <button type="button" class="btn btn-secondary" data-modal-close>Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../api.js"></script>
+    <script src="../pages/ratecards.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            Pages.ratecards.init();
+        });
+    </script>
+</body>
+</html>
